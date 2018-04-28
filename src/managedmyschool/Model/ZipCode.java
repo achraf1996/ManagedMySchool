@@ -1,23 +1,19 @@
-
-import java.util.Date;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package managedmyschool.Model;
 
 /**
  *
  * @author achrafchennan
  */
-public class contactPerson extends Person {
+public class ZipCode {
+
     
-    public contactPerson(String firstName, String lastName, Date birthDay, ZipCode zipCode
     
-    
-    ) {
-        super(firstName, lastName, birthDay, zipCode);
+    public ZipCode(String zipCode,  String streetName,int houseNumber, String addition, String city) {
     }
     
 }

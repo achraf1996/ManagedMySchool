@@ -1,3 +1,5 @@
+package managedmyschool.Model;
+
 
 import java.util.Date;
 
@@ -11,10 +13,15 @@ import java.util.Date;
  *
  * @author achrafchennan
  */
-public class Teacher extends Person {
+public class Student extends Person {
+     Lesson StudentLesson;
     
-    public Teacher(String firstName, String lastName, Date birthDay, ZipCode zipCode) {
+    
+    public Student(String firstName, String lastName, Date birthDay, ZipCode zipCode, Lesson lesson ) {
         super(firstName, lastName, birthDay, zipCode);
+        this.StudentLesson= lesson;
     }
+
+
     
 }
