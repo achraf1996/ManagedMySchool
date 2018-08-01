@@ -2,6 +2,7 @@ package managedmyschool.Model;
 
 
 
+import java.sql.Time;
 import java.util.List;
 
 
@@ -18,29 +19,21 @@ import java.util.List;
  */
 public class Lesson {
     String className;
-    List<Student> students;
-    Teacher teacher;
-    int startTime, endTime;
+    int teacherId;
+    Time startTime, endTime;
     Classrooms classRoom;
     
 
-    public Lesson(String className , List<Student> students, Teacher teacher,
-            int startTime, int endTime, Classrooms classRoom) {
+    public Lesson(String className , int teacherId,
+            Time startTime, Time endTime, Classrooms classRoom) {
         this.className = className;
-        this.students = students;
-        this.teacher = teacher;
+        this.teacherId = teacherId;
         this.startTime = startTime;
         this.endTime = endTime;  
         this.classRoom = classRoom;
         
     }
-    // adds Students
-    public boolean addStudent(Student student){return this.students.add(student);}
-    
-    
-    // removes student
-    public boolean removeStudent(Student student){return this.students.remove(student);}
-    
+   
     
      public String getClassName() {
         return className;
@@ -50,27 +43,27 @@ public class Lesson {
         this.className = className;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public int getTeacher() {
+        return teacherId;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setTeacher(int teacherId) {
+        this.teacherId = teacherId;
     }
 
-    public int getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 

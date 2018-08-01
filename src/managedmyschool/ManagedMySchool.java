@@ -3,26 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 package managedmyschool;
 
-import managedmyschool.Model.Student;
+import managedmyschool.View.mainAppFrame;
 
 /**
  *
  * @author achrafchennan
  */
-
 public class ManagedMySchool {
-
-    /**
-     * @param args the command line arguments
-     */
-    
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         // TODO code application logic here
-        
+        mainAppFrame app = new mainAppFrame();
     }
-    
 }

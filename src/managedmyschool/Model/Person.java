@@ -12,9 +12,11 @@ public class Person {
     String firstName, lastName;
     ZipCode zipCode;
     Date birthDay;
+    int id;
     
     
-    public Person(String firstName, String lastName, Date birthDay, ZipCode zipCode){
+    public Person(int id,String firstName, String lastName, Date birthDay, ZipCode zipCode){
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;

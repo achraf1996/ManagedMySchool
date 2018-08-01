@@ -15,8 +15,10 @@ import java.util.Date;
  */
 public class Teacher extends Person {
     
-    public Teacher(String firstName, String lastName, Date birthDay, ZipCode zipCode) {
-        super(firstName, lastName, birthDay, zipCode);
+    
+    
+    public Teacher(int id, String firstName, String lastName, Date birthDay, ZipCode zipCode) {
+        super(id, firstName, lastName, birthDay, zipCode);
     }
     
 }
