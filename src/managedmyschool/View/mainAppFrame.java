@@ -40,9 +40,10 @@ public class mainAppFrame extends JFrame {
         panel.add(redirectStudentAanmakenFrame);
         panel.add(redirectAanwezigheidFrame);
         panel.add(this.redirectCreateTeacher);
-                panel.add(this.redirectCreateTeacher);
         panel.add(this.redirectCreateTeacher);
+        panel.add(this.redirectCreateKlas);
         panel.add(this.redirectCreateTeacher);
+        panel.add(this.redirectEditKlas);
 
         // settings the frame settings
         this.setContentPane(panel);
