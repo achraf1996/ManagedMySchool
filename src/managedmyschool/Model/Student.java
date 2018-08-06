@@ -15,14 +15,43 @@ import java.util.Date;
  */
 public class Student extends Person {
      
+    String phoneNumberParent, parentName;
+    int shartNumber, monthleyPayment;
     
     
-    
-    public Student(int id, String firstName, String lastName, Date birthDay, ZipCode zipCode ) {
-        super(id, firstName, lastName, birthDay, zipCode);
-
+    public Student(int id, String firstName, String lastName, Date birthDay,
+            String phoneNumberParent, int shartNumber, int monthleyPayment, String parentName ) {
+        super(id, firstName, lastName, birthDay);
+        this.phoneNumberParent = phoneNumberParent;
+        this.shartNumber = shartNumber;
+        this.monthleyPayment = monthleyPayment;
+        this.parentName  = parentName;
     }
 
+    public String getPhoneNumberParent() {
+        return phoneNumberParent;
+    }
+
+    public void setPhoneNumberParent(String phoneNumberParent) {
+        this.phoneNumberParent = phoneNumberParent;
+    }
+
+    public int getShartNumber() {
+        return shartNumber;
+    }
+
+    public void setShartNumber(int shartNumber) {
+        this.shartNumber = shartNumber;
+    }
+
+    public int getMonthleyPayment() {
+        return monthleyPayment;
+    }
+
+    public void setMonthleyPayment(int monthleyPayment) {
+        this.monthleyPayment = monthleyPayment;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -37,14 +66,6 @@ public class Student extends Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public ZipCode getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(ZipCode zipCode) {
-        this.zipCode = zipCode;
     }
 
     public Date getBirthDay() {

@@ -10,17 +10,15 @@ import java.util.Date;
  */
 public class Person {
     String firstName, lastName;
-    ZipCode zipCode;
     Date birthDay;
     int id;
     
     
-    public Person(int id,String firstName, String lastName, Date birthDay, ZipCode zipCode){
+    public Person(int id,String firstName, String lastName, Date birthDay){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
-        this.zipCode = zipCode;
       
      }   
 
@@ -40,13 +38,6 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public ZipCode getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(ZipCode zipCode) {
-        this.zipCode = zipCode;
-    }
 
     public Date getBirthDay() {
         return birthDay;

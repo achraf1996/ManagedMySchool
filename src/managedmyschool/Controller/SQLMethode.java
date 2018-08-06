@@ -18,7 +18,9 @@ public class SQLMethode {
        Connection conn;
 
        
-
+        public SQLMethode(){
+        this.conn  = createConnection();
+        }
     
         public Connection createConnection(){
         

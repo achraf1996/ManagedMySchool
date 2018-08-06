@@ -78,14 +78,31 @@
                                       <Component id="tbDateOfBirth" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lbShartNumber" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="44" max="32767" attributes="0"/>
-                                  <Component id="tbShartNumber" min="-2" pref="78" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="lbShartNumber" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="tbShartNumber" min="-2" pref="78" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="133" pref="133" max="-2" attributes="0"/>
+                                                  <Component id="tbParentName" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="lbParentName" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace pref="137" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -128,6 +145,10 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbLastName" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tbLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                          <Component id="lbParentName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tbParentName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -247,6 +268,13 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbParentName">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Naam ouder:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tbParentName">
         </Component>
       </SubComponents>
     </Container>

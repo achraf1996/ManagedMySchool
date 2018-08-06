@@ -69,6 +69,8 @@ public class AddStudent extends javax.swing.JFrame {
         lbShartNumber = new javax.swing.JLabel();
         tbShartNumber = new javax.swing.JTextField();
         tbDateOfBirth = new javax.swing.JFormattedTextField();
+        lbParentName = new javax.swing.JLabel();
+        tbParentName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,6 +118,8 @@ public class AddStudent extends javax.swing.JFrame {
         tbDateOfBirth.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
         tbDateOfBirth.setToolTipText("");
 
+        lbParentName.setText("Naam ouder:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,10 +155,21 @@ public class AddStudent extends javax.swing.JFrame {
                                     .addComponent(tbFirstName)
                                     .addComponent(tbDateOfBirth))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbShartNumber)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                                .addComponent(tbShartNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lbShartNumber)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(tbShartNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(133, 133, 133)
+                                                .addComponent(tbParentName))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lbParentName)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
+                .addGap(15, 15, 15))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +201,10 @@ public class AddStudent extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbLastName)
-                    .addComponent(tbLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tbLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbParentName)
+                        .addComponent(tbParentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDateOfBirth)
@@ -351,12 +369,14 @@ public class AddStudent extends javax.swing.JFrame {
     private javax.swing.JLabel lbFirstName;
     private javax.swing.JLabel lbLastName;
     private javax.swing.JLabel lbMonthleyCost;
+    private javax.swing.JLabel lbParentName;
     private javax.swing.JLabel lbPhoneNumberParent;
     private javax.swing.JLabel lbShartNumber;
     private javax.swing.JFormattedTextField tbDateOfBirth;
     private javax.swing.JTextField tbFirstName;
     private javax.swing.JTextField tbLastName;
     private javax.swing.JTextField tbMontleyCost;
+    private javax.swing.JTextField tbParentName;
     private javax.swing.JTextField tbPhoneParents;
     private javax.swing.JTextField tbShartNumber;
     // End of variables declaration//GEN-END:variables
