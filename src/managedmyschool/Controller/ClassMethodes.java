@@ -60,113 +60,10 @@ public class ClassMethodes {
         aanwezigheidDemo = new ArrayList();
         aanwezigheidDemo1 = new ArrayList();
         
-        fillDemoStudentList(1,11,studentListDemo);
-        fillDemoStudentList(11,21,studentListDemo1);
-        
     }
 
     
-      public void fillDemoStudentList(int startNumber, int endNumber, List<Student> list ){
-      for (int i = startNumber; i < endNumber; i++) {
-            
-         String voorNaam = "student" + i;
-         String achterNaam = "demo";
-         Date geboorteDatum = null;
-         String postCode = "35" + i + "5KM";
-         String straat = "DeDemoStraat";
-
-         ZipCode zipCodeDemo = new ZipCode(postCode,straat,i,"");
-         
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-        try {
-
-            geboorteDatum = (Date) formatter.parse("10-10-1996");
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-         list.add(new Student(i,voorNaam,achterNaam,geboorteDatum,zipCodeDemo));
-        }
-      }
-      
-   public String addNewStudent(String voorNaam, String achterNaam, Date geboorteDatum, String klas, ZipCode zipCode){
-        
-       
-       if(this.isDemo){
-           int studentId= 0;
-           if(CheckClass(klas))
-             studentId =  this.studentListDemo.size() + 1; 
-           else 
-             studentId =  this.studentListDemo1.size() + 1; 
-
-           
-            Student student = new Student(studentId,voorNaam,achterNaam,geboorteDatum, zipCode);
-            
-             if(CheckClass(klas))
-             this.studentListDemo.add(student); 
-           else if(klas.equalsIgnoreCase("DemoKlas2"))
-             this.studentListDemo1.add(student); 
-             return "Het aanmaken van de student is succesvol verlopen";
-  
-       }
-       else{
-              Connection conndb = createConnection();
-          int id = 0;
-    String query = "INSERT INTO Student (" 
-            + "firstName,"
-            + "lastName,"
-            + "birthDay,"
-            + "zipCode ) VALUES ("
-            + "?,?,?,?)";
-   
-            ResultSet rs;
-
-    
-    try{
-         PreparedStatement stprep = conndb.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-                 Calendar now = Calendar.getInstance();
-                now.setTime(geboorteDatum);
-                now.set(Calendar.HOUR_OF_DAY, 6);
-                Date newDate  = now.getTime();
-         java.sql.Date sqlDate = new java.sql.Date(newDate.getTime());
-
-         stprep.setString(1,voorNaam);
-         stprep.setString(2,achterNaam);
-         stprep.setDate(3, sqlDate);
-         stprep.setString(4,zipCode.getZipCode());
-         
-         stprep.executeUpdate();
-         rs = stprep.getGeneratedKeys();
-         
-         while(rs.next()){
-            id = rs.getInt(1);
-                            }
-        stprep.close();
-        if(id != 0)
-        isSucces = this.addStudentToClass(id, klas);
-        isSucces = this.createZipCode(zipCode.getZipCode(), zipCode.getStreetName(), zipCode.getHouseNumber(), zipCode.getAddition());
-          
-    }
-    catch(SQLException ex){
-        return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
-    }
-   catch(Exception e){
-      //Handle errors for Class.forName
-      e.printStackTrace();
-              return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
-
-   }
-    if(isSucces)
-    return "Het aanmaken van de student is succesvol verlopen";
-    else
-     return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
-       
-       }
-       
-
-
-   }
-   
+     
    public Boolean addStudentToClass(int studentRow, String className){
       Connection conndb = createConnection();
 
@@ -384,38 +281,7 @@ public class ClassMethodes {
    }
    
    
-   public Student getStudent(int studentId){
-   Student student = null;
-   Connection conndb = createConnection();
-    String query = "SELECT * FROM STUDENT WHERE id = '"+studentId+"';";     
 
-   try{
-       st = conndb.createStatement();
-       ResultSet rs;
-        rs = st.executeQuery(query);
-        int id = 0;
-        String firstName = null;
-        String lastName = null;
-        Date birthDay = null;
-        ZipCode zipCode = null;
-        
-        while(rs.next()){
-         id = rs.getInt("id");
-         firstName = rs.getString("firstName");
-         lastName = rs.getString("lastName");
-         birthDay = rs.getDate("birthDay");
-         zipCode = this.getZipcode(rs.getString("zipCode"));
-         student = new Student(id, firstName, lastName, birthDay, zipCode);
-        }
-        return student; 
-   
-   }
-   catch(SQLException ex){
-                  System.err.println(ex.getMessage());
-                 return student;
-   }
-   }
-   
    
    public String setAanwezigheid(Date date, String className, List<Aanwezigheid>studentIds){
    
@@ -553,73 +419,7 @@ public class ClassMethodes {
    
    private Boolean CheckClass(String input){return input.equalsIgnoreCase("DemoKlas1");}
    
-   
-   public List<Student> getStudents(String lesName){
-       
-          List<Student> studentsList = new ArrayList<Student>();
 
-       if(this.isDemo){
-       if(CheckClass(lesName)){
-           studentsList  = this.studentListDemo; 
-       }
-       else if(lesName.equalsIgnoreCase("DemoKlas2")){
-           studentsList  = this.studentListDemo1; 
-
-       }
-      }
-       else{
-        Connection conndb = createConnection();
-   
-    String query = "SELECT * FROM BETWEEN_STUDENTLES WHERE lesName = '"+lesName+"';"; 
-    
-    List<String> studenstIds = new ArrayList<String>();
-    
-    
-    try{
-        st =conndb.createStatement();
-        ResultSet rs;
-        rs  = st.executeQuery(query);
-        while(rs.next())
-        {
-        studenstIds.add(rs.getString("studentId"));
-        
-        }    
-        int id = 0;
-        String firstName = null;
-        String lastName = null;
-        Date birthDay = null;
-        ZipCode zipCode = null;
-        for (int i = 0; i < studenstIds.size(); i++) {
-         query = "SELECT * FROM STUDENT WHERE id = '"+studenstIds.get(i)+"';";     
-            st = conndb.createStatement();
-        
-        rs = st.executeQuery(query);
-      while (rs.next())
-      {
-          //modify db to fit the purpose
-         id = rs.getInt("id");
-         firstName = rs.getString("firstName");
-         lastName = rs.getString("lastName");
-         birthDay = rs.getDate("birthDay");
-         zipCode = this.getZipcode(rs.getString("zipCode"));
-       
-         studentsList.add(new Student(id, firstName,lastName,birthDay,zipCode));
-        
-      }   
-            
-            
-        }
-        conn.close();
-        
-    }
-        catch (SQLException ex)
-    {
-      System.err.println(ex.getMessage());
-    }
-       }
-        return studentsList;
-
-   }
    private Classrooms getEnumValue(String classRoom){
            Classrooms newClass = Classrooms.CLASSROOM101;
            
