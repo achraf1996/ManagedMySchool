@@ -240,26 +240,26 @@ public class studentsMethodes {
 
     public String changeStudentClass(int id, String className) {
         //change to places
-                //remove from students 
+        //remove from students 
         // remove from classtable
         String query = "UPDATE BETWEEN_STUDENTLES set lesName = ? WHERE id = ?";
-        
+
         PreparedStatement stprep = null;
         try {
-             stprep = conn.prepareStatement(query);
-             stprep.setString(1,className);
-             stprep.setInt(1,id);
-             stprep.executeUpdate();
+            stprep = conn.prepareStatement(query);
+            stprep.setString(1, className);
+            stprep.setInt(1, id);
+            stprep.executeUpdate();
             stprep.close();
-             return "Het update van de klas is succesvol verlopen";
-             
-                    } catch (SQLException ex) {
+            return "Het update van de klas is succesvol verlopen";
+
+        } catch (SQLException ex) {
             return "Er is iets mis gegaan bij het update van de klas van de student, probeer het opnieuw.";
         } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
             return "Er is iets mis gegaan bij het van de klas van de student, probeer het opnieuw.";
-        } 
+        }
     }
 
     public String deleteStudent(int id) {
@@ -267,18 +267,18 @@ public class studentsMethodes {
         // remove from classtable
         String query = "DELETE FROM Student WHERE id = ?";
         String queryClassName = "DELETE FROM BETWEEN_STUDENTLES WHERE studentId = ?";
-        
+
         PreparedStatement stprep = null;
         try {
-             stprep = conn.prepareStatement(query);
-             stprep.setInt(1,id);
-             stprep.executeUpdate();
-             stprep = conn.prepareStatement(queryClassName);
-             stprep.setInt(1,id);
+            stprep = conn.prepareStatement(query);
+            stprep.setInt(1, id);
+            stprep.executeUpdate();
+            stprep = conn.prepareStatement(queryClassName);
+            stprep.setInt(1, id);
             stprep.executeUpdate();
             stprep.close();
-                        return "De student is succesvol verwijderen.";
-            
+            return "De student is succesvol verwijderen.";
+
         } catch (SQLException ex) {
             return "Er is iets mis gegaan bij het verwijderen van de student, probeer het opnieuw.";
         } catch (Exception e) {
@@ -286,14 +286,14 @@ public class studentsMethodes {
             e.printStackTrace();
             return "Er is iets mis gegaan bij het verwijderen van de student, probeer het opnieuw.";
 
-        } 
+        }
 
     }
 
     public String updateStudent(int id, String firstName, String lastName, Date birthDay, String className,
-             String phoneNumberParent, String parentName, String monthleyPayment, int shartNumber
+            String phoneNumberParent, String parentName, String monthleyPayment, int shartNumber
     ) {
-        String query = "UPDATE Student set firstname = ?, lastName = ?, birthDay = ?, phoneNumberParent = ?, parentName = ?, monthleyPayMent = ?, shartNumber = ? WHERE id =" + id + ";";
+        String query = "UPDATE Student set firstname = ?, lastName = ?, birthDay = ?, phoneNumberParent = ?, parentName = ?, monthleyPayment = ?, shartNumber = ? WHERE id =" + id + ";";
 
         ResultSet rs;
 

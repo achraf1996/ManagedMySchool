@@ -31,437 +31,318 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author achrafchennan
  */
 public class ClassMethodes {
-    
-    
-    Boolean isDemo = false;
-   Connection conn;
-      Statement st = null;
-      Boolean isSucces = false;
-      List<Student> studentListDemo;
-      List<Student> studentListDemo1;
-      List<AanwezigheidModel> aanwezigheidDemo;
-      List<AanwezigheidModel> aanwezigheidDemo1;
-      
-      
-    public void setIsDemo(Boolean isDemo) {
-        this.isDemo = isDemo;
-    }
 
-    public ClassMethodes( ) {
-        
-        studentListDemo = new ArrayList();
-        studentListDemo1 = new ArrayList();
-        aanwezigheidDemo = new ArrayList();
-        aanwezigheidDemo1 = new ArrayList();
-        
-    }
+    Connection conn;
+    Statement st = null;
+    Boolean isSucces = false;
+    studentsMethodes studentsMeht;
 
-    
-     
-   public Boolean addStudentToClass(int studentRow, String className){
-      Connection conndb = createConnection();
-
-       String query = "INSERT INTO BETWEEN_STUDENTLES (" 
-            + "studentId,"
-            + "lesName ) VALUES ("
-            + "?,?)";
-       
-        try{
-         PreparedStatement stprep = conndb.prepareStatement(query);
-
-         stprep.setInt(1,studentRow);
-         stprep.setString(2,className);
-         
-        int rowCount =  stprep.executeUpdate();
-         
-         
-         
-         
-        stprep.close();
-
-          
-    }
-    catch(SQLException ex){
-        System.out.println("error");   
-                return false;
+    public ClassMethodes() {
+        SQLMethode sqlMethodes = new SQLMethode();
+        studentsMeht = new studentsMethodes();
+        this.conn = sqlMethodes.conn;
 
     }
-   catch(Exception e){
-      //Handle errors for Class.forName
-      e.printStackTrace();
-              return false;
 
-   }
-       
-       return true;
-   }
-   
-   
-   public Boolean createZipCode(String zipCode, String straat, int huisNummer, String toevoeging){
-       Connection conndb = createConnection();
-    String query = "INSERT INTO ZipCode (" 
-            + "zipCode,"
-            + "streetName,"
-            + "houseNumber,"
-            + "addition ) VALUES ("
-            + "?,?,?,?)";
-       
-    try{
-         PreparedStatement stprep = conndb.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+    public String createClass(Lesson newLesson) {
+        Lesson newClass = null;
+        isSucces = false;
 
-         stprep.setString(1,zipCode);
-         stprep.setString(2,straat);
-         stprep.setInt(3, huisNummer);
-         stprep.setString(4,toevoeging);
-         
-         stprep.executeUpdate();
-         
-       
+        int id = 0;
+        String query = "INSERT INTO Lesson ("
+                + "className,"
+                + "teacherId,"
+                + "startTime,"
+                + "classRoom,"
+                + "endTime ) VALUES ("
+                + "?,?,?,?,?)";
+
+        ResultSet rs;
+
+        try {
+
+            // still needs add student to shart
+            PreparedStatement stprep = conn.prepareStatement(query);
+            stprep.setString(1, newLesson.getClassName());
+            stprep.setInt(2, newLesson.getTeacher());
+            stprep.setTime(3, newLesson.getStartTime());
+            stprep.setString(4, newLesson.getClassRoom().toString());
+            stprep.setTime(5, newLesson.getEndTime());
+            rs = stprep.executeQuery();
+
+            stprep.close();
+            isSucces = true;
+        } catch (SQLException ex) {
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+
+        }
+        if (isSucces) {
+            return "Het aanmaken van de nieuwe klas is succesvol verlopen";
+        } else {
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+        }
+
     }
-     catch(SQLException ex){
-        System.out.println("error");   
-                return false;
+
+    public String updateClass(Lesson updateClass) {
+        isSucces = false;
+
+        String query = "UPDATE LESSON set className = ?, teacherId = ?, startTime = ?,  classRoom = ?, endTime = ? WHERE classname = ?";
+
+        ResultSet rs;
+
+        try {
+
+            // still needs add student to shart
+            PreparedStatement stprep = conn.prepareStatement(query);
+            stprep.setString(1, updateClass.getClassName());
+            stprep.setInt(2, updateClass.getTeacher());
+            stprep.setTime(3, updateClass.getStartTime());
+            stprep.setString(4, updateClass.getClassRoom().toString());
+            stprep.setTime(5, updateClass.getEndTime());
+            rs = stprep.executeQuery();
+
+            stprep.close();
+            isSucces = true;
+        } catch (SQLException ex) {
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+
+        }
+        if (isSucces) {
+            return "Het aanmaken van de nieuwe klas is succesvol verlopen";
+        } else {
+            return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
+        }
+    }
+
+    public String deleteClass(String className) {
+        isSucces = false;
+
+        String query = "DELETE FROM Lesson WHERE className = ?";
+        try {
+
+            // still needs add student to shart
+            PreparedStatement stprep = conn.prepareStatement(query);
+            stprep.setString(1, className);
+            stprep.executeQuery();
+
+            stprep.close();
+            isSucces = true;
+        } catch (SQLException ex) {
+            return "Er is iets mis gegaan bij het verwijderen van de  klas, probeer het opnieuw.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return "Er is iets mis gegaan bij het verwijderen van de klas, probeer het opnieuw.";
+
+        }
+        if (isSucces) {
+            return "Het verwijderen van de klas is succesvol verlopen";
+        } else {
+            return "Er is iets mis gegaan bij het verwijderen van de  klas, probeer het opnieuw.";
+        }
 
     }
-   catch(Exception e){
-      //Handle errors for Class.forName
-      e.printStackTrace();
-              return false;
 
-   }
-   return true;
-   }
-   
-   
-   public List<Lesson> getClassesDemo(){
-      List<Lesson> classes = new ArrayList<Lesson>();
+    public Boolean addStudentToClass(int studentRow, String className) {
 
-      
-       for (int i = 1; i < 3; i++) {
-           String className = "DemoKlas"  + i ; 
-           int teacherId = i;
-           Time startTime =  null;
-           Time endTime = null;
-           Classrooms classRoom  = Classrooms.CLASSROOM101;
-           classes.add(new Lesson(className, teacherId, startTime, endTime, classRoom));
-           
-       }
-       
-       return classes;
-   }
-   
-   public List<Lesson> getClasses(){
-          List<Lesson> classes = new ArrayList<Lesson>();
+        String query = "INSERT INTO BETWEEN_STUDENTLES ("
+                + "studentId,"
+                + "lesName ) VALUES ("
+                + "?,?)";
 
-       if(this.isDemo){
-       classes  = this.getClassesDemo();
-       
-       }
-       else{
-           Connection conndb = createConnection();
-  
-    String query = "SELECT * FROM LESSON";  
-    String className = "";
-    int teacherId;
-    Time startTime;
-    Time endTime;
-    Classrooms classRoom;
-    try
-    {
-       
-      st = conndb.createStatement();
-      ResultSet rs;
-        rs = st.executeQuery(query);
-      while (rs.next())
-      {
-          //modify db to fit the purpose
-         className = rs.getString("className");
-         teacherId = rs.getInt("teacher");
-         startTime = rs.getTime("startTime");
-         endTime = rs.getTime("endTime");
-         classRoom = this.getEnumValue(rs.getString("classRoom"));
-       
-         classes.add(new Lesson(className,teacherId,startTime,endTime,classRoom));
-        
-      }
-      
-      
+        try {
+            PreparedStatement stprep = conn.prepareStatement(query);
+
+            stprep.setInt(1, studentRow);
+            stprep.setString(2, className);
+
+            int rowCount = stprep.executeUpdate();
+
+            stprep.close();
+
+        } catch (SQLException ex) {
+            System.out.println("error");
+            return false;
+
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return false;
+
+        }
+
+        return true;
     }
-    catch (SQLException ex)
-    {
-      System.err.println(ex.getMessage());
+
+    public Boolean removeStudentFromClass(int studentRow, String className) {
+
+        String query = "DELETE FROM BETWEEN_STUDENTLES WHERE studentId = ? ";
+
+        try {
+            PreparedStatement stprep = conn.prepareStatement(query);
+
+            stprep.setInt(1, studentRow);
+            stprep.executeUpdate();
+            stprep.close();
+
+        } catch (SQLException ex) {
+            System.out.println("error");
+            return false;
+
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return false;
+
+        }
+
+        return true;
     }
-       }
-   
-   return classes;
-   }
-   
-   public Lesson getClass(String className){
-   Connection conndb = createConnection();
-   
-    String query = "SELECT * FROM LESSON WHERE className = '"+className +"';";  
-    Lesson les = null;
-    String classname = "";
-    int teacherId;
-    Time startTime;
-    Time endTime;
-    Classrooms classRoom;
-    try
-    {
-       
-      st = conndb.createStatement();
-      ResultSet rs;
-        rs = st.executeQuery(query);
-      while (rs.next())
-      {
-          //modify db to fit the purpose
-         classname = rs.getString("className");
-         teacherId = rs.getInt("teacher");
-         startTime = rs.getTime("startTime");
-         endTime = rs.getTime("endTime");
-         classRoom = this.getEnumValue(rs.getString("classRoom"));
-       
-         les  = new Lesson(className,teacherId,startTime,endTime,classRoom);
-        
-      }
-      
-      
+
+    public List<Lesson> getClasses() {
+        List<Lesson> classes = new ArrayList<Lesson>();
+
+        String query = "SELECT * FROM LESSON";
+        String className = "";
+        int teacherId;
+        Time startTime;
+        Time endTime;
+        Classrooms classRoom;
+        try {
+
+            st = conn.createStatement();
+            ResultSet rs;
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                //modify db to fit the purpose
+                className = rs.getString("className");
+                teacherId = rs.getInt("teacher");
+                startTime = rs.getTime("startTime");
+                endTime = rs.getTime("endTime");
+                classRoom = this.getEnumValue(rs.getString("classRoom"));
+
+                classes.add(new Lesson(className, teacherId, startTime, endTime, classRoom));
+
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return classes;
     }
-    catch (SQLException ex)
-    {
-      System.err.println(ex.getMessage());
+
+    public String setAanwezigheid(Date date, String className, List<Aanwezigheid> studentIds) {
+
+        String query = "INSERT INTO Aanwezigheid ("
+                + "className,"
+                + "studentId,"
+                + "date,"
+                + "aanwezig ) VALUES ("
+                + "?,?,?,?)";
+
+        try {
+            PreparedStatement stprep = conn.prepareStatement(query);
+
+            // make student id and isAanwezig model;
+            Calendar now = Calendar.getInstance();
+            now.setTime(date);
+            now.set(Calendar.HOUR_OF_DAY, 6);
+            date = now.getTime();
+            Date newDate = now.getTime();
+
+            java.sql.Date sqlDate = new java.sql.Date(newDate.getTime());
+
+            for (int i = 0; i < studentIds.size(); i++) {
+
+                stprep.setString(1, className);
+                stprep.setString(2, studentIds.get(i).getId());
+                stprep.setDate(3, sqlDate);
+                stprep.setBoolean(4, studentIds.get(i).isIsAanwezig());
+
+                stprep.executeUpdate();
+
+            }
+            stprep.close();
+            return "De aanwezigheid is succesvol doorgegeven.";
+
+        } catch (SQLException ex) {
+            return "Er is iets fout gegaan bij invoeren van de aanwezigheid.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            return "Er is iets fout gegaan bij invoeren van de aanwezigheid.";
+
+        }
+
     }
-   
-   return les;
-   }
-   
-   public ZipCode getZipcode(String zipcodeId){
-    ZipCode zipCode = null;
-    
-       Connection conndb = createConnection();
-   
-    
-    String query = "SELECT * FROM ZipCode WHERE zipCode = '"+ zipcodeId +"';";  
-    String zipCodePrimary = null;
-    String streetName = null;
-    int houseNumber = 0;
-    String addition = null;
 
-    try
-    {
-       
-      st = conndb.createStatement();
-      ResultSet rs;
-        rs = st.executeQuery(query);
-      while (rs.next())
-      {
-     
-         zipCodePrimary = rs.getString("zipCode");
-         streetName = rs.getString("streetName");
-         houseNumber = rs.getInt("houseNumber");
-         addition = rs.getString("addition");
-         zipCode = new ZipCode(zipCodePrimary,streetName,houseNumber,addition);  
+    public List<AanwezigheidModel> getAanwezigheid(String date, String className) {
 
-
-      }
-         return zipCode;
-    }
-    catch (SQLException ex)
-    {
-     zipCode = new ZipCode();
-      System.err.println(ex.getMessage());
-        return zipCode;
-    }
-   }
-   
-   
-
-   
-   public String setAanwezigheid(Date date, String className, List<Aanwezigheid>studentIds){
-   
-   
-       if(this.isDemo){
-           if(CheckClass(className)){
-           this.aanwezigheidDemo.removeAll(aanwezigheidDemo);
-           for(Aanwezigheid aanwezigheidStudent : studentIds){
-                        int id = Integer.parseInt(aanwezigheidStudent.getId()) - 1;
-
-           Student newStudent =  this.studentListDemo.get(id);
-           this.aanwezigheidDemo.add(new AanwezigheidModel(date,className,newStudent,aanwezigheidStudent.isIsAanwezig()));
-           }
-           }
-           else if(className.equalsIgnoreCase("DemoKlas2")){
-                this.aanwezigheidDemo1.removeAll(aanwezigheidDemo1);
-           for(Aanwezigheid aanwezigheidStudent : studentIds){
-                        int id = Integer.parseInt(aanwezigheidStudent.getId());
-
-           List<Student> newStudentList =  this.studentListDemo1.stream().filter(a -> a.getId() == id ).collect(Collectors.toList());
-           this.aanwezigheidDemo1.add(new AanwezigheidModel(date,className,newStudentList.get(0),aanwezigheidStudent.isIsAanwezig()));
-           }
-           }
-                   return "De aanwezigheid is succesvol doorgegeven.";
-
-           
-       }
-       else{
-        Connection conndb = createConnection();
-    
-    String query = "INSERT INTO Aanwezigheid (" 
-            + "className,"
-            + "studentId,"
-            + "date,"
-            + "aanwezig ) VALUES ("
-            + "?,?,?,?)";
-    
-    
-    try{
-         PreparedStatement stprep = conndb.prepareStatement(query);
-        
-         
-         // make student id and isAanwezig model;
-                Calendar now = Calendar.getInstance();
-                now.setTime(date);
-                now.set(Calendar.HOUR_OF_DAY, 6);
-                date = now.getTime();
-                Date newDate  = now.getTime();
-         
-          java.sql.Date sqlDate = new java.sql.Date(newDate.getTime());
-     
-          
-         for (int i = 0; i < studentIds.size(); i++){
-
-         stprep.setString(1,className); 
-         stprep.setString(2,studentIds.get(i).getId());
-         stprep.setDate(3, sqlDate);
-         stprep.setBoolean(4,studentIds.get(i).isIsAanwezig());
-         
-         stprep.executeUpdate();
-         
-         }
-        stprep.close();
-        return "De aanwezigheid is succesvol doorgegeven.";
-          
-    }
-    catch(SQLException ex){
-       return "Er is iets fout gegaan bij invoeren van de aanwezigheid.";          
-    }
-   catch(Exception e){
-      //Handle errors for Class.forName
-     return "Er is iets fout gegaan bij invoeren van de aanwezigheid.";          
-
-   }
-       }
-      
-   
-   }
-   
-   public List<AanwezigheidModel> getAanwezigheid(String date, String className)
-   {
-       
-       List<AanwezigheidModel> aanwezigheidList = new ArrayList<AanwezigheidModel>();
+        List<AanwezigheidModel> aanwezigheidList = new ArrayList<AanwezigheidModel>();
         Boolean isAanwezig = false;
-        if(this.isDemo){
-          if(CheckClass(className)){
-          return this.aanwezigheidDemo;
-          }
-          else if (className.equalsIgnoreCase("KlasDemo2")){
-            return  this.aanwezigheidDemo1;
-          }
-          return aanwezigheidList;
-           
-       }
-                
-        else{
-          Connection conndb = createConnection();
 
-          String query = "SELECT * FROM Aanwezigheid WHERE date = '"+date+"' AND className = '"+className+"';"; 
-      
-       
-       try{
-       st = conndb.createStatement();
-       
-       ResultSet rs;
-       int id = 0;
-       Date dateAanwezigheid = new Date();
-       String classname = null;
-       int studentId = 0;
-       Student student;
-       boolean isAanwezigheid = false;
-       
-       rs = st.executeQuery(query);
-       while(rs.next()){
-       id = rs.getInt("id");
-       dateAanwezigheid = rs.getDate("date");
-       className = rs.getString("className");
-       studentId = rs.getInt("studentId");
-       isAanwezigheid = rs.getBoolean("aanwezig");
-       student = this.getStudent(studentId);
-       aanwezigheidList.add(new AanwezigheidModel(dateAanwezigheid,className,student,isAanwezigheid ));
-       
-       }
-       conn.close();
-       }
-       catch(SQLException ex){
-               System.err.println(ex.getMessage());
-               return aanwezigheidList; 
-            }  
-       
-              return aanwezigheidList;        
+        String query = "SELECT * FROM Aanwezigheid WHERE date = '" + date + "' AND className = '" + className + "';";
 
-        }
-   }
-   
-   private Boolean CheckClass(String input){return input.equalsIgnoreCase("DemoKlas1");}
-   
+        try {
+            st = conn.createStatement();
 
-   private Classrooms getEnumValue(String classRoom){
-           Classrooms newClass = Classrooms.CLASSROOM101;
-           
-           if(classRoom.equals(Classrooms.CLASSROOM101))
-           {
-           newClass = Classrooms.CLASSROOM101;
-           }
-           else if (classRoom.equals(Classrooms.CLASSROOM102)){
-           newClass = Classrooms.CLASSROOM102;    
-           }
-           else if(classRoom.equals(Classrooms.CLASSROOM103)){
-           newClass = Classrooms.CLASSROOM103;    
-           }
-           else if(classRoom.equals(Classrooms.CLASSROOM104)){
-           newClass = Classrooms.CLASSROOM104;    
-           }
-           
-           return newClass;
-   }
-  
-    
-    public Connection createConnection(){
-        
-         try{
-        
-        Class.forName("com.mysql.cj.jdbc.Driver");
-     String url = "jdbc:mysql://localhost:8889/managedMySchool?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-      conn = DriverManager.getConnection(url, "root", "root");
+            ResultSet rs;
+            int id = 0;
+            Date dateAanwezigheid = new Date();
+            String classname = null;
+            int studentId = 0;
+            Student student;
+            boolean isAanwezigheid = false;
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                id = rs.getInt("id");
+                dateAanwezigheid = rs.getDate("date");
+                className = rs.getString("className");
+                studentId = rs.getInt("studentId");
+                isAanwezigheid = rs.getBoolean("aanwezig");
+                student = this.studentsMeht.getStudent(studentId);
+                aanwezigheidList.add(new AanwezigheidModel(dateAanwezigheid, className, student, isAanwezigheid));
+
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return aanwezigheidList;
         }
-        catch(Exception e){
-            System.out.println("Failed to get connection");
-        }
-     
-        return conn;
+
+        return aanwezigheidList;
+
     }
-    
- 
-  
 
+    private Classrooms getEnumValue(String classRoom) {
+        Classrooms newClass = Classrooms.CLASSROOM101;
 
+        if (classRoom.equals(Classrooms.CLASSROOM101)) {
+            newClass = Classrooms.CLASSROOM101;
+        } else if (classRoom.equals(Classrooms.CLASSROOM102)) {
+            newClass = Classrooms.CLASSROOM102;
+        } else if (classRoom.equals(Classrooms.CLASSROOM103)) {
+            newClass = Classrooms.CLASSROOM103;
+        } else if (classRoom.equals(Classrooms.CLASSROOM104)) {
+            newClass = Classrooms.CLASSROOM104;
+        }
 
-   
+        return newClass;
+    }
+
 }
-
-

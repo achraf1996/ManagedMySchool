@@ -6,6 +6,7 @@
 package managedmyschool.Controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +19,7 @@ import managedmyschool.Model.Lesson;
 public class loginMethodes {
 
     Statement st = null;
+    PreparedStatement stprep = null;
     Connection conn;
     String query;
 
@@ -26,7 +28,7 @@ public class loginMethodes {
 
     }
 
-    private boolean loginUser(String username, String password) {
+    public boolean loginUser(String username, String password) {
         boolean succesFullLogin = false;
         query = "SELECT * from LOGIN WHERE username ='" + username.toLowerCase() + "' AND password='" + password.toLowerCase() + "';";
         try {
@@ -41,5 +43,23 @@ public class loginMethodes {
             succesFullLogin = false;
         }
         return succesFullLogin;
+    }
+
+    public void setPassword(String username, String password) {
+
+        String query = "UPDATE BETWEEN_STUDENTLES set lesName = ? WHERE id = ?";
+
+        query = "UPDATE LOGIN set password = ?  WHERE username = ? ";
+        try {
+            stprep = conn.prepareStatement(query);
+            stprep.setString(1, password);
+            stprep.setString(2, username);
+            stprep.executeUpdate();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+
     }
 }
