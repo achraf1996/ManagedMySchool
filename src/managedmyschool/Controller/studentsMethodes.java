@@ -15,7 +15,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import managedmyschool.Model.Student;
-import managedmyschool.Model.ZipCode;
 
 /**
  *
@@ -118,7 +117,7 @@ public class studentsMethodes {
             int id, monthleyPayment, shartNumber = 0;
             String firstName, lastName, phoneNumberParent, parentName = null;
             Date birthDay = null;
-            ResultSet rs;
+                ResultSet rs;
 
             String query = "SELECT * FROM STUDENT;";
             st = conn.createStatement();
