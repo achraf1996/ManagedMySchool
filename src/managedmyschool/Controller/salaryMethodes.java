@@ -119,7 +119,7 @@ public class salaryMethodes {
     public List<SalaryModel> getPaymentTeacher(int teacherId, int month, int year) {
         isSucces = false;
         List<SalaryModel> salaryList = new ArrayList<SalaryModel>();
-        String query = "SELECT * FROM WHERE teacherId = ? AND month = ? AND year  = ?;";
+        String query = "SELECT * FROM PaymentTeachers WHERE teacherId = ? AND month = ? AND year  = ?;";
 
         try {
 

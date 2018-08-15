@@ -9,33 +9,33 @@ package managedmyschool.Model;
  *
  * @author achrafchennan
  */
-    public class SalaryModel {
-    int amount, day, month, year, teacherId;
-    String registerdBy;
+public class PaymentModel {
+   int shartNumber, studentId, month, year, amount;
+   String registerdBy;
 
-    public SalaryModel(int amount, int day, int month, int year, int teacherId, String registerdBy) {
-        this.amount = amount;
-        this.day = day;
+    public PaymentModel(int shartNumber, int studentId, int month, int year, int amount, String registerdBy) {
+        this.shartNumber = shartNumber;
+        this.studentId = studentId;
         this.month = month;
         this.year = year;
-        this.teacherId = teacherId;
+        this.amount = amount;
         this.registerdBy = registerdBy;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getShartNumber() {
+        return shartNumber;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setShartNumber(int shartNumber) {
+        this.shartNumber = shartNumber;
     }
 
-    public int getDay() {
-        return day;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public int getMonth() {
@@ -54,12 +54,12 @@ package managedmyschool.Model;
         this.year = year;
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getRegisterdBy() {
@@ -70,8 +70,6 @@ package managedmyschool.Model;
         this.registerdBy = registerdBy;
     }
     
-    
-    
-    
-    
+   
+   
 }

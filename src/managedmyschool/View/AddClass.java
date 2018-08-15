@@ -12,20 +12,43 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.StudentsMethodes;
+import managedmyschool.Model.Aanwezigheid;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
-import managedmyschool.Model.ZipCode;
 
 /**
  *
  * @author achrafchennan
  */
 public class AddClass extends javax.swing.JFrame {
-    
-    ClassMethodes classMethode;
-    List<Lesson> lessonList;
 
+    ClassMethodes classMethode;
+    StudentsMethodes studentMethode;
+    List<Lesson> lessonList;
+    Boolean columsAreSet;
+
+    List<Student> studentList;
+
+    private DefaultTableModel modelSetTable = new DefaultTableModel() {
+        public Class<?> getColumnClass(int column) {
+            switch (column) {
+                case 0:
+                    return int.class;
+                case 1:
+                    return String.class;
+                case 2:
+                    return String.class;
+                case 3:
+                    return Boolean.class;
+                default:
+                    return String.class;
+            }
+        }
+
+    };
 
     /**
      * Creates new form AddStudent
@@ -34,14 +57,17 @@ public class AddClass extends javax.swing.JFrame {
         initComponents();
         lessonList = new ArrayList<Lesson>();
         classMethode = new ClassMethodes();
-        this.classMethode.setIsDemo(true);
+        studentMethode = new StudentsMethodes();
+        studentList = new ArrayList<Student>();
     }
 
-     public AddClass(ClassMethodes classMeth) {
+    public AddClass(ClassMethodes classMeth) {
         initComponents();
         lessonList = new ArrayList<Lesson>();
         classMethode = classMeth;
+        columsAreSet = false;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,7 +112,6 @@ public class AddClass extends javax.swing.JFrame {
         lbImportFrom.setText("Importeer uit");
 
         ClassMethodes classMethodeList = new ClassMethodes();
-        classMethodeList.setIsDemo(true);
         lessonList = classMethodeList.getClasses();
         cbClasses.addItem("Selecteer een klas");
 
@@ -94,6 +119,7 @@ public class AddClass extends javax.swing.JFrame {
             cbClasses.addItem(les.getClassName());
         }
 
+        this.fillStudentTable()
         tbPickStudents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -182,85 +208,91 @@ public class AddClass extends javax.swing.JFrame {
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
         // TODO add your handling code here:
-            mainAppFrame main = new mainAppFrame();
-                        this.setVisible(false);
+        mainAppFrame main = new mainAppFrame();
+        this.setVisible(false);
 
-            main.setVisible(true);
-          
+        main.setVisible(true);
+
     }//GEN-LAST:event_btGoBackActionPerformed
 
-    private Boolean checkIfNull(String var){
-    if(var.replace(" ", "") == "")
-    return true;
-    else
-      return  false;
+    private Boolean checkIfNull(String var) {
+        if (var.replace(" ", "") == "") {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
+    private void fillStudentTable() {
+
+        this.studentList = studentMethode.getAllStudents();
+        tbPickStudents.setModel(modelSetTable);
+        if (!this.columsAreSet) {
+            modelSetTable.addColumn("ID");
+            modelSetTable.addColumn("Voornaam");
+            modelSetTable.addColumn("Achternaam");
+            modelSetTable.addColumn("Is aanwezig");
+            this.columsAreSet = true;
+        }
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            Object[][] data = {new Object[]{student.getId(), student.getFirstName(), student.getLastName(), new Boolean(false)}};
+            modelSetTable.addRow(data);
+            modelSetTable.setValueAt(student.getId(), i, 0);
+            modelSetTable.setValueAt(student.getFirstName(), i, 1);
+            modelSetTable.setValueAt(student.getLastName(), i, 2);
+            modelSetTable.setValueAt(false, i, 3);
+        }
+
+    }
+
     private void btCreateClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateClassActionPerformed
         // TODO add your handling code here:
-       //read values
-       String voorNaam  = this.tbClassName.getText();
-       String achterNaam  = this.tbAchternaam.getText();
-       String geboorteDatum  = this.tbGeboorteDatum.getText();
-       String straat  = this.tbStraat.getText();
-       String huisNummer  = this.tbHuisNummer.getText();
-       String postCode = this.tbPostCode.getText();
-       String toevoeging = this.tbToevvoeging.getText();
-       String selectedKlas =  this.cbClasses.getSelectedItem().toString();
-       
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-                Date date  = null;
-                      java.sql.Date sqlDate =  null;
-                try {
-                  date = formatter.parse(geboorteDatum);
-                  sqlDate = new java.sql.Date(date.getTime());
+        //read values
+        List<Aanwezigheid> selectedStudentsIds = new ArrayList<Aanwezigheid>();
 
-                    } catch (ParseException e) {
-                 e.printStackTrace();
-                    }
-         int huisNum = Integer.parseInt(huisNummer);
-         
-       
-       
-       if(!checkIfNull(voorNaam)&&
-          !checkIfNull(achterNaam) &&
-          !checkIfNull(geboorteDatum) &&
-          !checkIfNull(straat) &&
-          !checkIfNull(huisNummer) &&
-          !checkIfNull(postCode) &&
-          selectedKlas  != "Selecteer een klas" &&
-          sqlDate != null  
-               
-               ){
-           
-           ZipCode zipCode = new ZipCode(postCode,straat,huisNum, toevoeging);
-           String respMessage =  classMethode.addNewStudent(voorNaam,achterNaam,date,selectedKlas,zipCode);
-           if(respMessage.startsWith("Het"))
-               showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
-           else
-              showResponse(respMessage,"Mislukt",JOptionPane.ERROR_MESSAGE);
+        if (!checkIfNull(this.tbClassName.getText())
+                ||  this.cbClasses.getSelectedItem().toString() != "Selecteer een klas"
+               ) {
 
-       }
-       else{
-          
-                    JOptionPane.showMessageDialog(null,
-                "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
-             "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
-       }
-              
-  
-        
+                    //check if import is selected
+                    
+            
+                  for (int i = 0; i < this.modelSetTable.getRowCount(); i++) {
+                Object id = this.modelSetTable.getValueAt(i, 0);
+                Object selected = this.modelSetTable.getValueAt(i, 3);
+
+                String idSt = String.valueOf(id);
+                Boolean isSelected = Boolean.valueOf(selected.toString());
+                if(isSelected == true)
+                    selectedStudentsIds.add(new Aanwezigheid(idSt,true));
+                
+                
+                  }
+            if (respMessage.startsWith("Het")) {
+                showResponse(respMessage, "Aangemaakt", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showResponse(respMessage, "Mislukt", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(null,
+                    "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
+                    "Verplichten velden",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btCreateClassActionPerformed
 
-         
-       public static void showResponse (String responseText, String responseTitle, int joptionpane ){
-             JOptionPane.showMessageDialog(null,
+    public static void showResponse(String responseText, String responseTitle, int joptionpane) {
+        JOptionPane.showMessageDialog(null,
                 responseText,
                 responseTitle,
                 joptionpane);
-       }
-        
+    }
+
     /**
      * @param args the command line arguments
      */

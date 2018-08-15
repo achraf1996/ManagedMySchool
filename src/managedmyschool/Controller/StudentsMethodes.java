@@ -20,13 +20,13 @@ import managedmyschool.Model.Student;
  *
  * @author achrafchennan
  */
-public class studentsMethodes {
+public class StudentsMethodes {
 
     Connection conn;
     Statement st;
     Boolean isSucces;
 
-    public studentsMethodes() {
+    public StudentsMethodes() {
         this.conn = new SQLMethode().conn;
         st = null;
         isSucces = false;

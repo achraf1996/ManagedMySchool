@@ -23,7 +23,6 @@ import managedmyschool.Model.AanwezigheidModel;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
 import managedmyschool.Model.Classrooms;
-import managedmyschool.Model.ZipCode;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /*
@@ -40,11 +39,11 @@ public class ClassMethodes {
     Connection conn;
     Statement st = null;
     Boolean isSucces = false;
-    studentsMethodes studentsMeht;
+    StudentsMethodes studentsMeht;
 
     public ClassMethodes() {
         SQLMethode sqlMethodes = new SQLMethode();
-        studentsMeht = new studentsMethodes();
+        studentsMeht = new StudentsMethodes();
         this.conn = sqlMethodes.conn;
 
     }
