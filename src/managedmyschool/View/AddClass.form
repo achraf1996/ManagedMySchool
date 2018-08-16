@@ -52,20 +52,37 @@
                           <Component id="btCreateClass" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lbImportFrom" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbClassName" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbClassName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbTeacher" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbClassroom" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbBeginTime" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cbClasses" pref="94" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="tbBeginTime" min="-2" pref="60" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="lbClassName3" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="cbClasses" max="32767" attributes="0"/>
                                       <Component id="tbClassName" max="32767" attributes="0"/>
+                                      <Component id="cbTeachers" max="32767" attributes="0"/>
+                                      <Component id="tbClassroom" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="lbImportFrom" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="74" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" alignment="1" min="-2" pref="359" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="tbEndTime" min="-2" pref="60" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane2" min="-2" pref="359" max="-2" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="138" max="-2" attributes="0"/>
@@ -94,16 +111,32 @@
                               <Component id="lbImportFrom" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cbClasses" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lbTeacher" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="cbTeachers" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lbClassroom" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="tbClassroom" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lbBeginTime" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="tbBeginTime" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbClassName3" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="tbEndTime" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="19" max="32767" attributes="0"/>
                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane2" min="-2" pref="166" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btCreateClass" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btGoBack" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -154,7 +187,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        ClassMethodes classMethodeList = new ClassMethodes();&#xa;         lessonList = classMethodeList.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="         lessonList = classMethode.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -172,7 +205,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="this.fillStudentTable()"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="this.fillStudentTable();"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -181,6 +214,43 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Alle leerlingen"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbTeacher">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Leraar:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbTeachers">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="List&lt;Teacher&gt; teacherList = this.teacherMethode.getTeachers();&#xa;        this.cbTeachers.addItem(&quot;Selecteer een Leraar (optioneel)&quot;);&#xa;            &#xa;        for(Teacher teacher : teacherList){&#xa;        cbTeachers.addItem(teacher.getFirstName() + &quot;,&quot; + teacher.getLastName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbClassroom">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Klaslocatie:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tbClassroom">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbBeginTime">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Begintijd"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tbBeginTime">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbClassName3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="t/m"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tbEndTime">
         </Component>
       </SubComponents>
     </Container>
