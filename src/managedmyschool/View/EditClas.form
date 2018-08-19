@@ -48,8 +48,20 @@
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lbTeacher" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbClassroom" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cbTeachers" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="tbClassroom" min="-2" pref="85" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="179" max="32767" attributes="0"/>
+                  <EmptySpace pref="112" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="331" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -100,6 +112,16 @@
                               <Group type="102" attributes="0">
                                   <Component id="cbClasses" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lbTeacher" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="cbTeachers" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lbClassroom" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="tbClassroom" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane1" min="-2" pref="166" max="-2" attributes="0"/>
@@ -135,9 +157,6 @@
                   <Table columnCount="0" rowCount="0"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(model)"/>
-              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -146,7 +165,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbClassesActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="    List&lt;Lesson&gt; lessons = classMethode.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessons){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value=" this.lessonList = classMethodes.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : this.lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -182,6 +201,29 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Alle Studenten"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbTeacher">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Leraar:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbTeachers">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbClassroom">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Klaslocatie:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tbClassroom">
         </Component>
       </SubComponents>
     </Container>

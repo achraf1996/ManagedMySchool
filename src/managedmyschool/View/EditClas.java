@@ -6,17 +6,81 @@
  */
 package managedmyschool.View;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.StudentsMethodes;
+import managedmyschool.Controller.TeachersMethodes;
+import managedmyschool.Model.Lesson;
+import managedmyschool.Model.Student;
+import managedmyschool.Model.Teacher;
+
 /**
  *
  * @author achrafchennan
  */
 public class EditClas extends javax.swing.JPanel {
 
+    ClassMethodes classMethodes;
+    StudentsMethodes studentMethodes;
+    TeachersMethodes teacherMethodes;
+    List<Student> studentsList;
+    List<Teacher> teacherList;
+    List<Lesson> lessonList;
+    boolean columsAreSet;
+    
+    private DefaultTableModel modelSetTable = new DefaultTableModel() {
+        public Class<?> getColumnClass(int column) {
+            switch (column) {
+                case 0:
+                    return int.class;
+                case 1:
+                    return String.class;
+                case 2:
+                    return String.class;
+                case 3:
+                    return Boolean.class;
+                default:
+                    return String.class;
+            }
+        }
+
+    };
+
     /**
      * Creates new form EditStudents
      */
     public EditClas() {
         initComponents();
+        this.classMethodes = new ClassMethodes();
+        this.studentMethodes = new StudentsMethodes();
+        this.teacherMethodes = new TeachersMethodes();
+        this.columsAreSet = false;
+        this.teacherList = teacherMethodes.getTeachers();
+    }
+
+    private void fillStudentTable() {
+
+        this.studentsList = studentMethodes.getAllStudents();
+      this.tbPickStudentsTable.setModel(modelSetTable);
+        if (!this.columsAreSet) {
+            modelSetTable.addColumn("ID");
+            modelSetTable.addColumn("Voornaam");
+            modelSetTable.addColumn("Achternaam");
+            modelSetTable.addColumn("Is aanwezig");
+            this.columsAreSet = true;
+        }
+        for (int i = 0; i < studentsList.size(); i++) {
+            Student student = studentsList.get(i);
+            Object[][] data = {new Object[]{student.getId(), student.getFirstName(), student.getLastName(), new Boolean(false)}};
+            modelSetTable.addRow(data);
+            modelSetTable.setValueAt(student.getId(), i, 0);
+            modelSetTable.setValueAt(student.getFirstName(), i, 1);
+            modelSetTable.setValueAt(student.getLastName(), i, 2);
+            modelSetTable.setValueAt(false, i, 3);
+        }
+
     }
 
     /**
@@ -30,7 +94,7 @@ public class EditClas extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbPickStudentsTable = new javax.swing.JTable(model);
+        tbPickStudentsTable = new javax.swing.JTable();
         cbClasses = new javax.swing.JComboBox<>();
         btGoBack = new javax.swing.JButton();
         btEditClass = new javax.swing.JButton();
@@ -38,6 +102,10 @@ public class EditClas extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         lbChooseClass = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        lbTeacher = new javax.swing.JLabel();
+        cbTeachers = new javax.swing.JComboBox<>();
+        lbClassroom = new javax.swing.JLabel();
+        tbClassroom = new javax.swing.JTextField();
 
         tbPickStudentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -49,10 +117,10 @@ public class EditClas extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tbPickStudentsTable);
 
-        List<Lesson> lessons = classMethode.getClasses();
+        this.lessonList = classMethodes.getClasses();
         cbClasses.addItem("Selecteer een klas");
 
-        for(Lesson les : lessons){
+        for(Lesson les : this.lessonList){
             cbClasses.addItem(les.getClassName());
         }
         cbClasses.addActionListener(new java.awt.event.ActionListener() {
@@ -81,6 +149,10 @@ public class EditClas extends javax.swing.JPanel {
 
         jLabel8.setText("Alle Studenten");
 
+        lbTeacher.setText("Leraar:");
+
+        lbClassroom.setText("Klaslocatie:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -92,8 +164,17 @@ public class EditClas extends javax.swing.JPanel {
                         .addComponent(cbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTeacher)
+                            .addComponent(lbClassroom))
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbTeachers, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tbClassroom, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -134,6 +215,14 @@ public class EditClas extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbTeachers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbClassroom, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tbClassroom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(132, 132, Short.MAX_VALUE))
@@ -165,53 +254,20 @@ public class EditClas extends javax.swing.JPanel {
 
     private void btEditClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditClassActionPerformed
         // TODO add your handling code here:
-        String datum = datumTextfield.getText();
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-        String className = cbClasses.getSelectedItem().toString();
-        int rowCount = this.model.getRowCount();
+        String className, teacherName, classRoom;
+        className = this.cbClasses.getSelectedItem().toString();
+        teacherName = this.cbTeachers.getSelectedItem().toString();
+        classRoom = this.tbClassroom.getText();
 
-        if (rowCount > 0) {
-            for (int i = rowCount - 1; i > -1; i--) {
-                model.removeRow(i);
-            }
-        }
-        if (className != "Selecteer een klas" && datum != "Voer een datum in") {
-
-            Date date = null;
-            java.sql.Date sqlDate = null;
-            try {
-                date = formatter.parse(datum);
-                sqlDate = new java.sql.Date(date.getTime());
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            this.aanwezigList = classMethode.getAanwezigheid(sqlDate.toString(), cbClasses.getSelectedItem().toString());
-            aanwezigList.stream().distinct().collect(Collectors.toList());
-            tbPickStudentsTable.setModel(model);
-            for (AanwezigheidModel aanwezigheid : aanwezigList) {
-
-                String aanwezigheidTekst = aanwezigheid.isAanwezig() ? "Ja" : "Nee";
-                Student student = aanwezigheid.getStudent();
-                ZipCode adres = student.getZipCode();
-
-                Object[] data = {student.getId(), aanwezigheidTekst, student.getFirstName(), student.getLastName(), student.getBirthDay().toString(), adres.getStreetName(), adres.getHouseNumber(), adres.getZipCode()};
-                model.addRow(data);
-
-            }
-            if (this.aanwezigList.size() < 1) {
-                showResponse("Er is geen resultaat gevonden voor deze datum", "Geen Resultaat", JOptionPane.WARNING_MESSAGE);
-            }
+        if (className.equalsIgnoreCase("Selecteer een klas")) {
 
         } else {
             String ErrorMessage = className == "Selecteer een klas" ? "U heeft geen klas geselecteerd, " : "";
-            String ErrorMessage1 = datum == "Voer een datum in" ? "U heeft geen datum ingevoerd" : "";
 
             JOptionPane.showMessageDialog(null,
-                ErrorMessage + ErrorMessage1,
-                "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
+                    ErrorMessage,
+                    "Verplichten velden",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btEditClassActionPerformed
 
@@ -225,6 +281,16 @@ public class EditClas extends javax.swing.JPanel {
 
     private void cbClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClassesActionPerformed
         // TODO add your handling code here:
+        Lesson selectedClass = this.classMethodes.getClassByName(this.cbClasses.getSelectedItem().toString());
+        this.tbClassroom.setText(selectedClass.getClassName());
+        
+        for (Teacher teacher : teacherList) {
+         cbTeachers.addItem(teacher.getFirstName() + "," + teacher.getLastName());
+         if(teacher.getId() == selectedClass.getTeacher())
+             cbTeachers.setSelectedItem(teacher);
+        }
+        this.fillStudentTable();
+        
     }//GEN-LAST:event_cbClassesActionPerformed
 
 
@@ -232,12 +298,16 @@ public class EditClas extends javax.swing.JPanel {
     private javax.swing.JButton btEditClass;
     private javax.swing.JButton btGoBack;
     private javax.swing.JComboBox<String> cbClasses;
+    private javax.swing.JComboBox<String> cbTeachers;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbChooseClass;
+    private javax.swing.JLabel lbClassroom;
     private javax.swing.JLabel lbEditClassTitle;
+    private javax.swing.JLabel lbTeacher;
+    private javax.swing.JTextField tbClassroom;
     private javax.swing.JTable tbPickStudentsTable;
     // End of variables declaration//GEN-END:variables
 }
