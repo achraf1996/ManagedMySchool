@@ -5,7 +5,7 @@
  */
 package managedmyschool;
 
-import managedmyschool.View.mainAppFrame;
+import managedmyschool.View.*;
 
 /**
  *
@@ -14,6 +14,7 @@ import managedmyschool.View.mainAppFrame;
 public class ManagedMySchool {
         public static void main(String[] args) {
         // TODO code application logic here
-        mainAppFrame app = new mainAppFrame();
+        Home app = new Home("");
+        app.setVisible(true);
     }
 }
