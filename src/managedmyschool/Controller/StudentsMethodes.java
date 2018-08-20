@@ -117,7 +117,7 @@ public class StudentsMethodes {
             int id, monthleyPayment, shartNumber = 0;
             String firstName, lastName, phoneNumberParent, parentName = null;
             Date birthDay = null;
-                ResultSet rs;
+            ResultSet rs;
 
             String query = "SELECT * FROM STUDENT;";
             st = conn.createStatement();
@@ -206,7 +206,7 @@ public class StudentsMethodes {
 
     }
 
-    public Boolean addStudentToClass(int studentRow, String className) {
+        public Boolean addStudentToClass(int studentId, String className) {
 
         String query = "INSERT INTO BETWEEN_STUDENTLES ("
                 + "studentId,"
@@ -216,7 +216,7 @@ public class StudentsMethodes {
         try {
             PreparedStatement stprep = conn.prepareStatement(query);
 
-            stprep.setInt(1, studentRow);
+            stprep.setInt(1, studentId);
             stprep.setString(2, className);
 
             int rowCount = stprep.executeUpdate();
@@ -289,8 +289,20 @@ public class StudentsMethodes {
 
     }
 
+    public String copyFromClas(String className, String newClassName) {
+
+        List<Student> studentListToCopy = this.getStudentsFromClass(className);
+        
+
+        for (Student student : studentListToCopy) {
+            this.addStudentToClass(student.getId(), newClassName);
+        }
+
+        return "De studenten zijn succesvol toegevoegd";
+    }
+
     public String updateStudent(int id, String firstName, String lastName, Date birthDay, String className,
-            String phoneNumberParent, String parentName, String monthleyPayment, int shartNumber
+            String phoneNumberParent, String parentName, int monthleyPayment, int shartNumber
     ) {
         String query = "UPDATE Student set firstname = ?, lastName = ?, birthDay = ?, phoneNumberParent = ?, parentName = ?, monthleyPayment = ?, shartNumber = ? WHERE id =" + id + ";";
 
@@ -309,7 +321,7 @@ public class StudentsMethodes {
             stprep.setDate(3, sqlDate);
             stprep.setString(4, phoneNumberParent);
             stprep.setString(5, parentName);
-            stprep.setString(6, monthleyPayment);
+            stprep.setInt(6, monthleyPayment);
             stprep.setInt(7, shartNumber);
             stprep.executeUpdate();
             rs = stprep.getGeneratedKeys();

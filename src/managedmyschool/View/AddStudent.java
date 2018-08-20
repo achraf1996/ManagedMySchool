@@ -13,9 +13,12 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.StudentsMethodes;
+import static managedmyschool.Controller.HelperMethodes.checkIfNull;
+import static managedmyschool.Controller.HelperMethodes.tryParseInt;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
-import managedmyschool.Model.ZipCode;
+
 
 /**
  *
@@ -24,6 +27,7 @@ import managedmyschool.Model.ZipCode;
 public class AddStudent extends javax.swing.JFrame {
     
     ClassMethodes classMethode;
+    StudentsMethodes studentMethodes;
     List<Lesson> lessonList;
 
 
@@ -34,7 +38,7 @@ public class AddStudent extends javax.swing.JFrame {
         initComponents();
         lessonList = new ArrayList<Lesson>();
         classMethode = new ClassMethodes();
-        this.classMethode.setIsDemo(true);
+        studentMethodes = new StudentsMethodes();
     }
 
      public AddStudent(ClassMethodes classMeth) {
@@ -98,9 +102,7 @@ public class AddStudent extends javax.swing.JFrame {
 
         lbCreateStudentTitle.setText("Student aanmaken");
 
-        ClassMethodes classMethodeList = new ClassMethodes();
-        classMethodeList.setIsDemo(true);
-        lessonList = classMethodeList.getClasses();
+        lessonList = this.classMethode.getClasses();
         cbClasses.addItem("Selecteer een klas");
 
         for(Lesson les : lessonList){
@@ -252,12 +254,6 @@ public class AddStudent extends javax.swing.JFrame {
           
     }//GEN-LAST:event_btGoBackActionPerformed
 
-    private Boolean checkIfNull(String var){
-    if(var.replace(" ", "") == "")
-    return true;
-    else
-      return  false;
-    }
     
     private void btCreateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateStudentActionPerformed
         // TODO add your handling code here:
@@ -265,11 +261,13 @@ public class AddStudent extends javax.swing.JFrame {
        String voorNaam  = this.tbFirstName.getText();
        String achterNaam  = this.tbLastName.getText();
        String geboorteDatum  = this.tbDateOfBirth.getText();
-       String straat  = this.tbPhoneParents.getText();
-       String huisNummer  = this.tbMontleyCost.getText();
-       String postCode = this.tbPostCode.getText();
-       String toevoeging = this.tbShartNumber.getText();
+       String phoneParents  = this.tbPhoneParents.getText();
+       String parentsName  = this.tbParentName.getText();
+       String monthleyPayment  = this.tbMontleyCost.getText();
+       int shartNumber =  tryParseInt(this.tbShartNumber.getText()) ? Integer.parseInt(this.tbShartNumber.getText()) : 0 ;
        String selectedKlas =  this.cbClasses.getSelectedItem().toString();
+       
+       
        
         DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
                 Date date  = null;
@@ -281,23 +279,22 @@ public class AddStudent extends javax.swing.JFrame {
                     } catch (ParseException e) {
                  e.printStackTrace();
                     }
-         int huisNum = Integer.parseInt(huisNummer);
          
        
        
        if(!checkIfNull(voorNaam)&&
           !checkIfNull(achterNaam) &&
           !checkIfNull(geboorteDatum) &&
-          !checkIfNull(straat) &&
-          !checkIfNull(huisNummer) &&
-          !checkIfNull(postCode) &&
+          !checkIfNull(phoneParents) &&
+          !checkIfNull(parentsName) &&
+          !checkIfNull(monthleyPayment) &&
+          shartNumber > 0 &&      
           selectedKlas  != "Selecteer een klas" &&
           sqlDate != null  
                
                ){
            
-           ZipCode zipCode = new ZipCode(postCode,straat,huisNum, toevoeging);
-           String respMessage =  classMethode.addNewStudent(voorNaam,achterNaam,date,selectedKlas,zipCode);
+           String respMessage =  studentMethodes.addNewStudent(voorNaam,achterNaam,date,selectedKlas, phoneParents, parentsName, monthleyPayment, shartNumber);
            if(respMessage.startsWith("Het"))
                showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
            else

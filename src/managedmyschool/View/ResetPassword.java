@@ -5,6 +5,7 @@
  */
 package managedmyschool.View;
 
+import javax.swing.JOptionPane;
 import managedmyschool.Controller.LoginMethodes;
 
 /**
@@ -18,10 +19,19 @@ String userName;
      */
     
     LoginMethodes loginMethodes;
-    public ResetPassword(java.awt.Frame parent, boolean modal, String userName) {
-        super(parent, modal);
+    private ResetPassword home;
+    
+    public ResetPassword(javax.swing.JPanel parent, boolean modal, String userName) {
+
         initComponents();
         this.userName = userName;
+        loginMethodes = new LoginMethodes();
+        this.home = this;
+        
+    }
+        public ResetPassword(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
         loginMethodes = new LoginMethodes();
         
     }
@@ -117,9 +127,15 @@ String userName;
         
              if (password.toString().equalsIgnoreCase(passwordRetry.toString())) {
             loginMethodes.setPassword(this.userName, password.toString());
+            this.dispose();
+            Home homeScreen = new Home(this.userName);
+            homeScreen.setVisible(true);
         }
              else {
-                 
+                  JOptionPane.showMessageDialog(null,
+                "De ingevulde wachtwoorden komen niet overeen.",
+             "Wachtwoord controleren",
+                JOptionPane.WARNING_MESSAGE);  
              }
         
     }//GEN-LAST:event_btChangePasswordActionPerformed
@@ -154,7 +170,7 @@ String userName;
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ResetPassword dialog = new ResetPassword(new javax.swing.JFrame(), true, String userName);
+                ResetPassword dialog = new ResetPassword(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

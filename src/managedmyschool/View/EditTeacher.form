@@ -185,7 +185,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbTeachersActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        ClassMethodes classMethodeList = new ClassMethodes();&#xa;        classMethodeList.setIsDemo(true);&#xa;         lessonList = classMethodeList.getClasses();&#xa;        cbTeachers.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbTeachers.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;        cbTeachers.addItem(&quot;Selecteer een leraar&quot;);&#xa;&#xa;        for(Teacher teacher : teacherList){&#xa;        cbTeachers.addItem(teacher.getId() + &quot;,&quot;+teacher.getFirstName() +&quot;, &quot; + teacher.getLastName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -209,11 +209,8 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbCurrentClassesActionPerformed"/>
-          </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        ClassMethodes classMethodeList = new ClassMethodes();&#xa;        classMethodeList.setIsDemo(true);&#xa;         lessonList = classMethodeList.getClasses();&#xa;        cbTeachers.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbTeachers.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;        for(Lesson les : lessonList){&#xa;        cbTeachers.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

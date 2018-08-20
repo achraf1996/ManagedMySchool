@@ -13,9 +13,11 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.TeachersMethodes;
+import static managedmyschool.Controller.HelperMethodes.getBirthDay;
+import static managedmyschool.Controller.HelperMethodes.tryParseInt;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
-import managedmyschool.Model.ZipCode;
 
 /**
  *
@@ -24,6 +26,7 @@ import managedmyschool.Model.ZipCode;
 public class AddTeacher extends javax.swing.JFrame {
     
     ClassMethodes classMethode;
+    TeachersMethodes  teacherMethodes;
     List<Lesson> lessonList;
 
 
@@ -34,7 +37,7 @@ public class AddTeacher extends javax.swing.JFrame {
         initComponents();
         lessonList = new ArrayList<Lesson>();
         classMethode = new ClassMethodes();
-        this.classMethode.setIsDemo(true);
+        teacherMethodes = new TeachersMethodes();
     }
 
      public AddTeacher(ClassMethodes classMeth) {
@@ -94,9 +97,7 @@ public class AddTeacher extends javax.swing.JFrame {
 
         jLabel5.setText("Leraar aanmaken");
 
-        ClassMethodes classMethodeList = new ClassMethodes();
-        classMethodeList.setIsDemo(true);
-        lessonList = classMethodeList.getClasses();
+        lessonList = this.classMethode.getClasses();
         cbKlassen.addItem("Selecteer een klas");
 
         for(Lesson les : lessonList){
@@ -231,39 +232,25 @@ public class AddTeacher extends javax.swing.JFrame {
        String voorNaam  = this.tbVoornaam.getText();
        String achterNaam  = this.tbAchternaam.getText();
        String geboorteDatum  = this.tbGeboorteDatum.getText();
-       String straat  = this.tbPhone.getText();
-       String huisNummer  = this.tbSalary.getText();
-       String postCode = this.tbPostCode.getText();
-       String toevoeging = this.tbToevvoeging.getText();
+       String phone  = this.tbPhone.getText();
+       int salary  =  tryParseInt(this.tbSalary.getText()) ?  Integer.parseInt(tbSalary.getText()) : 0 ;
        String selectedKlas =  this.cbKlassen.getSelectedItem().toString();
        
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-                Date date  = null;
-                      java.sql.Date sqlDate =  null;
-                try {
-                  date = formatter.parse(geboorteDatum);
-                  sqlDate = new java.sql.Date(date.getTime());
-
-                    } catch (ParseException e) {
-                 e.printStackTrace();
-                    }
-         int huisNum = Integer.parseInt(huisNummer);
+        Date sqlDate  = getBirthDay(geboorteDatum);
          
        
        
        if(!checkIfNull(voorNaam)&&
           !checkIfNull(achterNaam) &&
           !checkIfNull(geboorteDatum) &&
-          !checkIfNull(straat) &&
-          !checkIfNull(huisNummer) &&
-          !checkIfNull(postCode) &&
-          selectedKlas  != "Selecteer een klas" &&
+          !checkIfNull(phone) &&     
+          !selectedKlas.startsWith("Selecteer") &&
           sqlDate != null  
                
                ){
            
-           ZipCode zipCode = new ZipCode(postCode,straat,huisNum, toevoeging);
-           String respMessage =  classMethode.addNewStudent(voorNaam,achterNaam,date,selectedKlas,zipCode);
+               String respMessage =  this.teacherMethodes.addTeacher(voorNaam,achterNaam,sqlDate,phone,salary);
+               
            if(respMessage.startsWith("Het"))
                showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
            else

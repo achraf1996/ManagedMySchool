@@ -74,7 +74,6 @@ class HomeController implements ActionListener {
         classMethode = new ClassMethodes();
 
         //Connection checkConnection =  classMethode.createConnection() ;
-        classMethode.setIsDemo(true);
         JOptionPane.showMessageDialog(null,
                 "Dit is een demo-versie de data is geen echte data van de database.",
                 "Demo",

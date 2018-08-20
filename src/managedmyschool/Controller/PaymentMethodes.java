@@ -19,13 +19,13 @@ import managedmyschool.Model.SalaryModel;
  *
  * @author achrafchennan
  */
-public class paymentMethodes {
+public class PaymentMethodes {
 
     Connection conn;
     Statement st;
     Boolean isSucces;
 
-    public paymentMethodes() {
+    public PaymentMethodes() {
         this.conn = new SQLMethode().conn;
         this.isSucces = false;
         this.st = null;

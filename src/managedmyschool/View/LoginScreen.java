@@ -5,17 +5,25 @@
  */
 package managedmyschool.View;
 
+import javax.swing.JOptionPane;
+import managedmyschool.Controller.LoginMethodes;
+import static managedmyschool.Controller.HelperMethodes.checkIfNull;
+
 /**
  *
  * @author achrafchennan
  */
 public class LoginScreen extends javax.swing.JPanel {
 
+     LoginMethodes loginMethodes;
+     LoginScreen loginScreen;
     /**
      * Creates new form EditStudents
      */
     public LoginScreen() {
         initComponents();
+        loginScreen = this;
+        loginMethodes = new LoginMethodes();
     }
 
     /**
@@ -121,63 +129,49 @@ public class LoginScreen extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void createResetPasswordDialog(){
+    
+        String titleText = "Vul een nieuwe wachtwoord in.";
+        
+    
+    }
+    
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
-        String datum = datumTextfield.getText();
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-        String className = klassenCB.getSelectedItem().toString();
-        int rowCount = this.model.getRowCount();
+        String username;
+        char[] password;
+        username = this.tbUserName.getText();
+        password = this.tbPassword.getPassword();
 
-        if (rowCount > 0) {
-            for (int i = rowCount - 1; i > -1; i--) {
-                model.removeRow(i);
+        if (checkIfNull(username)
+                && password.length > 0) {
+            
+          /// check if person has a password
+          
+         boolean isSucces = loginMethodes.loginUser(username,password.toString());
+            if (isSucces && password.toString().equalsIgnoreCase("WelkomISL")) {
+            ResetPassword resetPasswordScreen = new ResetPassword(loginScreen, true,username);  
             }
-        }
-        if (className != "Selecteer een klas" && datum != "Voer een datum in") {
-
-            Date date = null;
-            java.sql.Date sqlDate = null;
-            try {
-                date = formatter.parse(datum);
-                sqlDate = new java.sql.Date(date.getTime());
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            else{
+                this.loginScreen.setVisible(false);
+                Home homeScreen = new Home(username);
+                homeScreen.setVisible(true);
             }
-
-            this.aanwezigList = classMethode.getAanwezigheid(sqlDate.toString(), klassenCB.getSelectedItem().toString());
-            aanwezigList.stream().distinct().collect(Collectors.toList());
-            studentTable.setModel(model);
-            for (AanwezigheidModel aanwezigheid : aanwezigList) {
-
-                String aanwezigheidTekst = aanwezigheid.isAanwezig() ? "Ja" : "Nee";
-                Student student = aanwezigheid.getStudent();
-                ZipCode adres = student.getZipCode();
-
-                Object[] data = {student.getId(), aanwezigheidTekst, student.getFirstName(), student.getLastName(), student.getBirthDay().toString(), adres.getStreetName(), adres.getHouseNumber(), adres.getZipCode()};
-                model.addRow(data);
-
-            }
-            if (this.aanwezigList.size() < 1) {
-                showResponse("Er is geen resultaat gevonden voor deze datum", "Geen Resultaat", JOptionPane.WARNING_MESSAGE);
-            }
-
+            
         } else {
-            String ErrorMessage = className == "Selecteer een klas" ? "U heeft geen klas geselecteerd, " : "";
-            String ErrorMessage1 = datum == "Voer een datum in" ? "U heeft geen datum ingevoerd" : "";
+            String ErrorMessage = checkIfNull(username) ? "U heeft geen gebruikersnaam ingevuld, " : "";
+            String ErrorMessage1 = password.length < 1  ? "U heeft geen password ingevuld" : "";
 
             JOptionPane.showMessageDialog(null,
-                ErrorMessage + ErrorMessage1,
-                "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
+                    ErrorMessage + ErrorMessage1,
+                    "Verplichten velden",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
     private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseActionPerformed
-        mainAppFrame main = new mainAppFrame();
-        this.setVisible(false);
-
-        main.setVisible(true);
+       System.exit(0);
         // TODO add your handling code here:
     }//GEN-LAST:event_btCloseActionPerformed
 

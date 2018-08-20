@@ -20,18 +20,25 @@ import java.util.List;
 public class Lesson {
     String className;
     int teacherId;
-    Time startTime, endTime;
-    Classrooms classRoom;
+    int startTime, endTime;
+    String classRoom;
     
 
     public Lesson(String className , int teacherId,
-            Time startTime, Time endTime, Classrooms classRoom) {
+            int startTime, int endTime, String classRoom) {
         this.className = className;
         this.teacherId = teacherId;
         this.startTime = startTime;
         this.endTime = endTime;  
         this.classRoom = classRoom;
         
+    }
+
+    public Lesson(String className, int startTime, int endTime, String classRoom) {
+        this.className = className;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.classRoom = classRoom;
     }
    
     
@@ -51,27 +58,27 @@ public class Lesson {
         this.teacherId = teacherId;
     }
 
-    public Time getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public int getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
 
-    public Classrooms getClassRoom() {
+    public String getClassRoom() {
         return classRoom;
     }
 
-    public void setClassRoom(Classrooms classRoom) {
+    public void setClassRoom(String classRoom) {
         this.classRoom = classRoom;
     }
    

@@ -21,20 +21,18 @@ import managedmyschool.Model.Teacher;
  *
  * @author achrafchennan
  */
-public class teacherMethodes {
+public class TeachersMethodes {
 
     Connection conn;
     Boolean isSucces;
-        Statement st;
+    Statement st;
 
-    public teacherMethodes() {
+    public TeachersMethodes() {
         SQLMethode sqlMethodes = new SQLMethode();
         this.conn = sqlMethodes.conn;
-        isSucces  = false;   
+        isSucces = false;
         st = null;
     }
-
- 
 
     private void getTeacher(String id) {
 
@@ -48,11 +46,46 @@ public class teacherMethodes {
 
     }
 
-    private void setSalaryMonthley(String month, String teacherId) {
+    private void setSalaryMonthley(String month, int teacherId) {
 
     }
-    
-      public Teacher getTeacher(int teacherId) {
+
+    public String addTeacherToClass(String className, int teacherId) {
+
+        String query = "INSERT INTO BETWEEN_TEACHERLES ("
+                + "teacherId,"
+                + "className) VALUES (?,?)";
+
+        ResultSet rs;
+
+        try {
+
+            // still needs add student to shart
+            PreparedStatement stprep = conn.prepareStatement(query);
+
+            stprep.setInt(1, teacherId);
+            stprep.setString(2, className);
+            stprep.executeUpdate();
+            stprep.close();
+            isSucces = true;
+
+        } catch (SQLException ex) {
+        return "Er is iets mis gegaan bij het toevoegen van de leraar, probeer het opnieuw.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return "Er is iets mis gegaan bij het toevoegen van de leraar, probeer het opnieuw.";
+
+        }
+        if (isSucces) {
+            return "Het toevoegen van de leraar is succesvol verlopen";
+        } else {
+            return "Er is iets mis gegaan bij het toevoegen van de leraar, probeer het opnieuw.";
+        }
+
+    }
+
+    public Teacher getTeacher(int teacherId) {
         Teacher teacher = null;
         String query = "SELECT * FROM TEACHER WHERE id = '" + teacherId + "';";
 
@@ -62,35 +95,33 @@ public class teacherMethodes {
             rs = st.executeQuery(query);
             int id, salary = 0;
             String firstName, lastName, phoneNumber = null;
-           
-                      Date birthDay = null;
-            
+
+            Date birthDay = null;
 
             while (rs.next()) {
                 id = rs.getInt("id");
                 firstName = rs.getString("firstName");
                 lastName = rs.getString("lastName");
                 birthDay = rs.getDate("birthDay");
-               phoneNumber = rs.getString("phoneNumber");
-                salary =  rs.getInt("salary");
-               teacher = new Teacher(id, firstName, lastName, birthDay, phoneNumber, salary);
+                phoneNumber = rs.getString("phoneNumber");
+                salary = rs.getInt("salary");
+                teacher = new Teacher(id, firstName, lastName, birthDay, phoneNumber, salary);
             }
             return teacher;
 
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
-            return teacher; 
+            return teacher;
         }
     }
 
-   
     public List<Teacher> getTeachers() {
 
         List<Teacher> teachersList = new ArrayList<Teacher>();
 
         try {
 
-             int id, salary = 0;
+            int id, salary = 0;
             String firstName, lastName, phoneNumber = null;
             Date birthDay = null;
             ResultSet rs;
@@ -101,13 +132,13 @@ public class teacherMethodes {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 //modify db to fit the purpose
-            id = rs.getInt("id");
+                id = rs.getInt("id");
                 firstName = rs.getString("firstName");
                 lastName = rs.getString("lastName");
                 birthDay = rs.getDate("birthDay");
-               phoneNumber = rs.getString("phoneNumber");
-                salary =  rs.getInt("salary");
-               teachersList.add(new Teacher(id, firstName, lastName, birthDay, phoneNumber, salary));
+                phoneNumber = rs.getString("phoneNumber");
+                salary = rs.getInt("salary");
+                teachersList.add(new Teacher(id, firstName, lastName, birthDay, phoneNumber, salary));
             }
 
             conn.close();
@@ -153,7 +184,7 @@ public class teacherMethodes {
                 id = rs.getInt(1);
             }
             stprep.close();
-            isSucces =  true;
+            isSucces = true;
 
         } catch (SQLException ex) {
             return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
@@ -171,23 +202,20 @@ public class teacherMethodes {
 
     }
 
-   
-
-  
     public String deleteTeacher(int id) {
         //remove from students 
         // remove from classtable
         String query = "DELETE FROM TEACHER WHERE id = ?";
-        
+
         PreparedStatement stprep = null;
         try {
-             stprep = conn.prepareStatement(query);
-             stprep.setInt(1,id);
-             stprep.executeUpdate();
+            stprep = conn.prepareStatement(query);
+            stprep.setInt(1, id);
+            stprep.executeUpdate();
 
             stprep.close();
-                        return "De leraar is succesvol verwijderen.";
-            
+            return "De leraar is succesvol verwijderen.";
+
         } catch (SQLException ex) {
             return "Er is iets mis gegaan bij het verwijderen van de leraar, probeer het opnieuw.";
         } catch (Exception e) {
@@ -195,12 +223,12 @@ public class teacherMethodes {
             e.printStackTrace();
             return "Er is iets mis gegaan bij het verwijderen van de leraar, probeer het opnieuw.";
 
-        } 
+        }
 
     }
 
-    public String updateTeacher(int id, String firstName, String lastName, Date birthDay, 
-             String phoneNumber, int salary) {
+    public String updateTeacher(int id, String firstName, String lastName, Date birthDay,
+            String phoneNumber, int salary) {
         String query = "UPDATE Student set firstname = ?, lastName = ?, birthDay = ?, phoneNumber = ?, salary = ? WHERE id =" + id + ";";
 
         ResultSet rs;
@@ -220,7 +248,6 @@ public class teacherMethodes {
             stprep.setInt(5, salary);
             stprep.executeUpdate();
 
-        
             stprep.close();
             isSucces = true;
 

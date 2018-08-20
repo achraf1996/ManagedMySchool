@@ -227,7 +227,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="List&lt;Teacher&gt; teacherList = this.teacherMethode.getTeachers();&#xa;        this.cbTeachers.addItem(&quot;Selecteer een Leraar (optioneel)&quot;);&#xa;            &#xa;        for(Teacher teacher : teacherList){&#xa;        cbTeachers.addItem(teacher.getFirstName() + &quot;,&quot; + teacher.getLastName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        this.cbTeachers.addItem(&quot;Selecteer een Leraar (optioneel)&quot;);&#xa;            &#xa;        for(Teacher teacher : teacherList){&#xa;        cbTeachers.addItem(teacher.getFirstName() + &quot;,&quot; + teacher.getLastName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

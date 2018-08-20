@@ -39,25 +39,27 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cbClasses" pref="111" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="cbStudents" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbClass" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lbStudent" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cbStudents" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbClass" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbStudent" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cbClasses" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="cbYear" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="lbStudent1" min="-2" pref="43" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace pref="201" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="331" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
@@ -107,9 +109,13 @@
                           <Component id="lbStudent" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cbStudents" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lbStudent1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="cbYear" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="39" max="32767" attributes="0"/>
+                  <EmptySpace pref="35" max="32767" attributes="0"/>
                   <Component id="lbLastEditBy" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="btSafePayments" min="-2" max="-2" attributes="0"/>
@@ -139,9 +145,6 @@
                   <Table columnCount="0" rowCount="0"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(model)"/>
-              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -150,7 +153,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbClassesActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="    List&lt;Lesson&gt; lessons = classMethode.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessons){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : this.lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -190,7 +193,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbStudentsActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="    List&lt;Lesson&gt; lessons = classMethode.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessons){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="       this.cbStudents.addItem(&quot;Selecteer een Student&quot;);&#xa;&#xa;        for(Student student : this.studentList){&#xa;        cbStudents.addItem(student.getId() + &quot;,&quot;+ student.getFirstName() + &quot;,&quot; + student.getLastName());&#xa;        }"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -198,6 +201,20 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Laatst aangepast door : "/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbStudent1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Jaar:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbYear">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbYearActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="        this.cbYear.addItem(&quot;Selecteer een Jaar&quot;);&#xa;        String[] years = new String[]{&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;,&quot;2021&quot;,&quot;2022&quot;,&quot;2023&quot;,&quot;2024&quot;,&quot;2025&quot;};&#xa;      &#xa;        &#xa;        for(String year : years){&#xa;           cbYear.addItem(year);&#xa;&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

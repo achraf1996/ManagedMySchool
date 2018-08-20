@@ -5,18 +5,50 @@
  */
 package managedmyschool.View;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.HelperMethodes;
+import managedmyschool.Controller.StudentsMethodes;
+import managedmyschool.Controller.TeachersMethodes;
+import managedmyschool.Model.Lesson;
+import managedmyschool.Model.Student;
+import managedmyschool.Model.Teacher;
+import static managedmyschool.View.aanwezigheid.showResponse;
+
 /**
  *
  * @author achrafchennan
  */
 public class EditTeacher extends javax.swing.JPanel {
 
+    ClassMethodes classMethodes;
+    TeachersMethodes teacherMethodes;
+    List<Teacher> teacherList;
+    List<Lesson> lessonList;
+    Teacher selectedTeacher;
+
     /**
      * Creates new form EditStudents
      */
     public EditTeacher() {
         initComponents();
+        teacherMethodes = new TeachersMethodes();
+        classMethodes  = new ClassMethodes();
+        
+        
     }
+    public void getClasses() {
+        this.lessonList = classMethodes.getClasses();
+    }
+
+    public void getTeachers() {
+        this.teacherList = teacherMethodes.getTeachers();
+    }
+    public void getSelectedTeacher(int teacherId){
+     this.selectedTeacher = teacherMethodes.getTeacher(teacherId);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,13 +98,10 @@ public class EditTeacher extends javax.swing.JPanel {
 
         lbEditStudentTitle.setText("Leraar aanmaken");
 
-        ClassMethodes classMethodeList = new ClassMethodes();
-        classMethodeList.setIsDemo(true);
-        lessonList = classMethodeList.getClasses();
-        cbTeachers.addItem("Selecteer een klas");
+        cbTeachers.addItem("Selecteer een leraar");
 
-        for(Lesson les : lessonList){
-            cbTeachers.addItem(les.getClassName());
+        for(Teacher teacher : teacherList){
+            cbTeachers.addItem(teacher.getId() + ","+teacher.getFirstName() +", " + teacher.getLastName());
         }
 
         cbTeachers.addActionListener(new java.awt.event.ActionListener() {
@@ -85,20 +114,9 @@ public class EditTeacher extends javax.swing.JPanel {
 
         lbSalery.setText("Uurloon :");
 
-        ClassMethodes classMethodeList = new ClassMethodes();
-        classMethodeList.setIsDemo(true);
-        lessonList = classMethodeList.getClasses();
-        cbTeachers.addItem("Selecteer een klas");
-
         for(Lesson les : lessonList){
             cbTeachers.addItem(les.getClassName());
         }
-
-        cbCurrentClasses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCurrentClassesActionPerformed(evt);
-            }
-        });
 
         lbTeachers.setText("Leraren");
 
@@ -199,53 +217,20 @@ public class EditTeacher extends javax.swing.JPanel {
     private void btEditTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditTeacherActionPerformed
         // TODO add your handling code here:
         //read values
-        String voorNaam  = this.tbFirstName.getText();
-        String achterNaam  = this.tbLastName.getText();
-        String geboorteDatum  = this.tbGeboorteDatum.getText();
-        String straat  = this.tbPhoneNumber.getText();
-        String huisNummer  = this.tbSalary.getText();
-        String postCode = this.tbPostCode.getText();
-        String toevoeging = this.tbToevvoeging.getText();
-        String selectedKlas =  this.cbTeachers.getSelectedItem().toString();
+        String firstName = this.tbFirstName.getText();
+        String lastName = this.tbLastName.getText();
+        String phoneNumber = this.tbPhoneNumber.getText();
+        int salary = HelperMethodes.tryParseInt(this.tbSalary.getText()) ? Integer.parseInt(this.tbSalary.getText()) : this.selectedTeacher.getSalary();
+        String className = this.cbCurrentClasses.getSelectedItem().toString();
+        //update the class
+            String respMessage = teacherMethodes.updateTeacher(this.selectedTeacher.getId(), firstName, lastName, this.selectedTeacher.getBirthDay(), phoneNumber, salary);
+            if (respMessage.startsWith("Het")) {
+                showResponse(respMessage, "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showResponse(respMessage, "Mislukt", JOptionPane.ERROR_MESSAGE);
+            }
 
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-        Date date  = null;
-        java.sql.Date sqlDate =  null;
-        try {
-            date = formatter.parse(geboorteDatum);
-            sqlDate = new java.sql.Date(date.getTime());
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int huisNum = Integer.parseInt(huisNummer);
-
-        if(!checkIfNull(voorNaam)&&
-            !checkIfNull(achterNaam) &&
-            !checkIfNull(geboorteDatum) &&
-            !checkIfNull(straat) &&
-            !checkIfNull(huisNummer) &&
-            !checkIfNull(postCode) &&
-            selectedKlas  != "Selecteer een klas" &&
-            sqlDate != null
-
-        ){
-
-            ZipCode zipCode = new ZipCode(postCode,straat,huisNum, toevoeging);
-            String respMessage =  classMethode.addNewStudent(voorNaam,achterNaam,date,selectedKlas,zipCode);
-            if(respMessage.startsWith("Het"))
-            showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
-            else
-            showResponse(respMessage,"Mislukt",JOptionPane.ERROR_MESSAGE);
-
-        }
-        else{
-
-            JOptionPane.showMessageDialog(null,
-                "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
-                "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
-        }
+        
 
     }//GEN-LAST:event_btEditTeacherActionPerformed
 
@@ -260,11 +245,18 @@ public class EditTeacher extends javax.swing.JPanel {
 
     private void cbTeachersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTeachersActionPerformed
         // TODO add your handling code here:
+        String id = this.cbTeachers.getSelectedItem().toString().split(",")[0];
+        this.getSelectedTeacher(Integer.parseInt(id));
+        this.getClasses();
+        this.tbFirstName.setText(this.selectedTeacher.getFirstName());  
+        this.tbLastName.setText(this.selectedTeacher.getLastName());
+        this.tbFirstName.setText(this.selectedTeacher.getFirstName());
+        this.tbPhoneNumber.setText(this.selectedTeacher.getPhoneNumber());
+        this.tbSalary.setText(String.valueOf(this.selectedTeacher.getSalary()));
+        
+        
+        
     }//GEN-LAST:event_cbTeachersActionPerformed
-
-    private void cbCurrentClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCurrentClassesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbCurrentClassesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

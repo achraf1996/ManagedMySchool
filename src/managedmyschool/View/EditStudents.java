@@ -5,17 +5,66 @@
  */
 package managedmyschool.View;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.StudentsMethodes;
+import managedmyschool.Controller.TeachersMethodes;
+import managedmyschool.Controller.HelperMethodes;
+import managedmyschool.Model.AanwezigheidModel;
+import managedmyschool.Model.Lesson;
+import managedmyschool.Model.Student;
+import managedmyschool.Model.Teacher;
+
 /**
  *
  * @author achrafchennan
  */
 public class EditStudents extends javax.swing.JPanel {
 
+    ClassMethodes classMethodes;
+    StudentsMethodes studentMethodes;
+    TeachersMethodes teacherMethodes;
+    HelperMethodes helperMethodes;
+    List<Student> studentsList;
+    List<Lesson> lessonList;
+    Boolean columsAreSet;
+    Student selectedStudent;
+
+    private String[] COLUMNSSTUDENTTABLE = {"Voornaam", "Achternaam"};
+
+    private DefaultTableModel model = new DefaultTableModel(COLUMNSSTUDENTTABLE, 0);
+
     /**
      * Creates new form EditStudents
      */
     public EditStudents() {
         initComponents();
+        this.classMethodes = new ClassMethodes();
+        this.studentMethodes = new StudentsMethodes();
+        this.teacherMethodes = new TeachersMethodes();
+        this.helperMethodes = new HelperMethodes();
+        this.columsAreSet = false;
+        getClasses();
+    }
+
+    public void getClasses() {
+        this.lessonList = classMethodes.getClasses();
+    }
+
+    public void getStudents(String className) {
+        this.studentsList = studentMethodes.getStudentsFromClass(className);
+        fillStudentTable();
+    }
+
+    public void fillStudentTable() {
+
+        this.tbStudents.setModel(model);
+        for (Student student : this.studentsList) {
+            Object[] data = {student.getFirstName(), student.getLastName()};
+            model.addRow(data);
+        }
     }
 
     /**
@@ -57,12 +106,15 @@ public class EditStudents extends javax.swing.JPanel {
 
             }
         ));
+        tbStudents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbStudentsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbStudents);
 
-        List<Lesson> lessons = classMethode.getClasses();
         cbClasses.addItem("Selecteer een klas");
-
-        for(Lesson les : lessons){
+        for(Lesson les : this.lessonList){
             cbClasses.addItem(les.getClassName());
         }
         cbClasses.addActionListener(new java.awt.event.ActionListener() {
@@ -88,8 +140,6 @@ public class EditStudents extends javax.swing.JPanel {
         lbEditStudentTitle.setText("Student wijzigen");
 
         lbCurrentClass.setText("Huidige Klas:");
-
-        cbCurrentClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tbFirstName.setToolTipText("");
 
@@ -142,23 +192,25 @@ public class EditStudents extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbShartNumber)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tbShartNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lbMonthleyPay)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tbMonthleyPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lbCurrentClass)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cbCurrentClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(458, 458, 458))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbMonthleyPay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tbMonthleyPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lbShartNumber)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tbShartNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lbCurrentClass)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbCurrentClass, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(516, 516, 516))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(415, 415, 415)
+                        .addGap(411, 411, 411)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(tbEditStudent)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -241,54 +293,22 @@ public class EditStudents extends javax.swing.JPanel {
 
     private void tbEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbEditStudentActionPerformed
         // TODO add your handling code here:
-        String datum = datumTextfield.getText();
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-        String className = cbClasses.getSelectedItem().toString();
-        int rowCount = this.model.getRowCount();
+        String firstName, lastName, phoneNumberParent, classNameNew;
+        int monthlyPayment;
+        firstName = this.tbFirstName.getText();
+        lastName = this.tbLastName.getText();
+        phoneNumberParent = this.tbPhoneParent.getText();
+        String shart = this.tbShartNumber.getText();
+        String monthly = this.tbMonthleyPayment.getText();
+        int shartNumber = HelperMethodes.tryParseInt(shart) ? Integer.parseInt(shart) : 0;
+        monthlyPayment = HelperMethodes.tryParseInt(monthly) ? Integer.parseInt(monthly) : 0;
+        classNameNew = cbCurrentClass.getSelectedItem().toString();
 
-        if (rowCount > 0) {
-            for (int i = rowCount - 1; i > -1; i--) {
-                model.removeRow(i);
-            }
-        }
-        if (className != "Selecteer een klas" && datum != "Voer een datum in") {
-
-            Date date = null;
-            java.sql.Date sqlDate = null;
-            try {
-                date = formatter.parse(datum);
-                sqlDate = new java.sql.Date(date.getTime());
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            this.aanwezigList = classMethode.getAanwezigheid(sqlDate.toString(), cbClasses.getSelectedItem().toString());
-            aanwezigList.stream().distinct().collect(Collectors.toList());
-            tbStudents.setModel(model);
-            for (AanwezigheidModel aanwezigheid : aanwezigList) {
-
-                String aanwezigheidTekst = aanwezigheid.isAanwezig() ? "Ja" : "Nee";
-                Student student = aanwezigheid.getStudent();
-                ZipCode adres = student.getZipCode();
-
-                Object[] data = {student.getId(), aanwezigheidTekst, student.getFirstName(), student.getLastName(), student.getBirthDay().toString(), adres.getStreetName(), adres.getHouseNumber(), adres.getZipCode()};
-                model.addRow(data);
-
-            }
-            if (this.aanwezigList.size() < 1) {
-                showResponse("Er is geen resultaat gevonden voor deze datum", "Geen Resultaat", JOptionPane.WARNING_MESSAGE);
-            }
-
-        } else {
-            String ErrorMessage = className == "Selecteer een klas" ? "U heeft geen klas geselecteerd, " : "";
-            String ErrorMessage1 = datum == "Voer een datum in" ? "U heeft geen datum ingevoerd" : "";
-
-            JOptionPane.showMessageDialog(null,
-                ErrorMessage + ErrorMessage1,
-                "Verplichten velden",
-                JOptionPalbEditStudentTitleING_MESSAGE);
-        }
+        String resp = this.studentMethodes.updateStudent(selectedStudent.getId(), firstName, lastName, selectedStudent.getBirthDay(), classNameNew, phoneNumberParent, lastName, monthlyPayment, shartNumber);
+        JOptionPane.showMessageDialog(null,
+                resp,
+                "Resultaat",
+                JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_tbEditStudentActionPerformed
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
@@ -301,7 +321,27 @@ public class EditStudents extends javax.swing.JPanel {
 
     private void cbClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClassesActionPerformed
         // TODO add your handling code here:
+
+        //set also the selected class for the second cb
+        this.cbCurrentClass.setSelectedItem(this.cbClasses.getSelectedItem());
+        this.getStudents(this.cbClasses.getSelectedItem().toString());
+
     }//GEN-LAST:event_cbClassesActionPerformed
+
+    private void tbStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentsMouseClicked
+        // TODO add your handling code here:
+        int row = tbStudents.rowAtPoint(evt.getPoint());
+
+        Student selectedStudent = this.studentsList.get(row - 1);
+        this.tbFirstName.setText(selectedStudent.getFirstName());
+
+        this.tbLastName.setText(selectedStudent.getLastName());
+
+        this.tbMonthleyPayment.setText(String.valueOf(selectedStudent.getMonthleyPayment()));
+        this.tbPhoneParent.setText(selectedStudent.getPhoneNumberParent());
+        this.tbShartNumber.setText(String.valueOf(selectedStudent.getShartNumber()));
+
+    }//GEN-LAST:event_tbStudentsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

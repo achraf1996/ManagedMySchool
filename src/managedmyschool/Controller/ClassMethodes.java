@@ -40,10 +40,12 @@ public class ClassMethodes {
     Statement st = null;
     Boolean isSucces = false;
     StudentsMethodes studentsMeht;
+    TeachersMethodes teacherMethodes;
 
     public ClassMethodes() {
         SQLMethode sqlMethodes = new SQLMethode();
         studentsMeht = new StudentsMethodes();
+        teacherMethodes = new TeachersMethodes();
         this.conn = sqlMethodes.conn;
 
     }
@@ -55,11 +57,10 @@ public class ClassMethodes {
         int id = 0;
         String query = "INSERT INTO Lesson ("
                 + "className,"
-                + "teacherId,"
                 + "startTime,"
                 + "classRoom,"
                 + "endTime ) VALUES ("
-                + "?,?,?,?,?)";
+                + "?,?,?,?)";
 
         ResultSet rs;
 
@@ -68,10 +69,9 @@ public class ClassMethodes {
             // still needs add student to shart
             PreparedStatement stprep = conn.prepareStatement(query);
             stprep.setString(1, newLesson.getClassName());
-            stprep.setInt(2, newLesson.getTeacher());
-            stprep.setTime(3, newLesson.getStartTime());
-            stprep.setString(4, newLesson.getClassRoom().toString());
-            stprep.setTime(5, newLesson.getEndTime());
+            stprep.setInt(2, newLesson.getStartTime());
+            stprep.setString(3, newLesson.getClassRoom().toString());
+            stprep.setInt(4, newLesson.getEndTime());
             rs = stprep.executeQuery();
 
             stprep.close();
@@ -125,6 +125,56 @@ public class ClassMethodes {
         } else {
             return "Er is iets mis gegaan bij het aanmaken van de nieuwe klas, probeer het opnieuw.";
         }
+    }
+
+    public int getClassTeacher(String className) {
+        int teacherId = 0;
+        String query = "SELECT * FROM BETWEEN_TEACHERLES WHERE className = " + className + ";";
+        try {
+            st = conn.createStatement();
+            ResultSet rs;
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                className = rs.getString("className");
+                teacherId = rs.getInt("teacherId");
+            }
+        } catch (SQLException sqlEX) {
+            return teacherId;
+        } catch (Exception ex) {
+            return teacherId;
+        }
+        return teacherId;
+    }
+
+    public Lesson getClassByName(String className) {
+        Lesson resultLesson = null;
+        String query = "SELECT * FROM LESSON WHERE className = " + className + ";";
+        String classNameResult = "";
+        int teacherId = 0;
+        int startTime = 0 ;
+        int endTime = 0;
+        String classRoom = "";
+
+        try {
+            st = conn.createStatement();
+            ResultSet rs;
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                className = rs.getString("className");
+                startTime = rs.getInt("startTime");
+                endTime = rs.getInt("endTime");
+                teacherId = this.getClassTeacher(className);
+                classRoom = rs.getString("classRoom");
+
+            }
+            resultLesson = new Lesson(className, teacherId, startTime, endTime, classRoom);
+        } catch (SQLException sqlEX) {
+            return resultLesson;
+        } catch (Exception ex) {
+            return resultLesson;
+        }
+        return resultLesson;
+
     }
 
     public String deleteClass(String className) {

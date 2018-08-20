@@ -5,17 +5,27 @@
  */
 package managedmyschool.View;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author achrafchennan
  */
 public class Home extends javax.swing.JPanel {
 
+    String userName;
+
     /**
      * Creates new form Home
      */
-    public Home() {
+    public Home(String userName) {
         initComponents();
+        this.userName = userName;
+    }
+
+    public void dispose() {
+        JFrame parent = (JFrame) this.getTopLevelAncestor();
+        parent.dispose();
     }
 
     /**
@@ -48,11 +58,26 @@ public class Home extends javax.swing.JPanel {
         });
 
         btGoToCreateTeacher.setText("Leraar aanmaken");
+        btGoToCreateTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToCreateTeacherActionPerformed(evt);
+            }
+        });
 
         btGoToCreateClass.setText("Klas aanmaken");
         btGoToCreateClass.setToolTipText("");
+        btGoToCreateClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToCreateClassActionPerformed(evt);
+            }
+        });
 
         btGoToEditStudent.setText("Student Wijzigen");
+        btGoToEditStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToEditStudentActionPerformed(evt);
+            }
+        });
 
         btGoToEditTeacher.setText("Leraar Wijzigen");
         btGoToEditTeacher.addActionListener(new java.awt.event.ActionListener() {
@@ -63,16 +88,46 @@ public class Home extends javax.swing.JPanel {
 
         btGoToEditClass.setText("Klas Wijzigen");
         btGoToEditClass.setToolTipText("");
+        btGoToEditClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToEditClassActionPerformed(evt);
+            }
+        });
 
         btGoToStudentsCost.setText("Studenten kosten");
+        btGoToStudentsCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToStudentsCostActionPerformed(evt);
+            }
+        });
 
         btCloseApp.setText("Afsluiten");
+        btCloseApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCloseAppActionPerformed(evt);
+            }
+        });
 
         btGoToTeachersCost.setText("Leraren kosten");
+        btGoToTeachersCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToTeachersCostActionPerformed(evt);
+            }
+        });
 
         btGoToAanwezigheid.setText("Aanwezigheid ");
+        btGoToAanwezigheid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGoToAanwezigheidActionPerformed(evt);
+            }
+        });
 
         btLogOut.setText("Uitloggen");
+        btLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -144,12 +199,76 @@ public class Home extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGoAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoAddStudentActionPerformed
-        // TODO add your handling code here:
+        AddStudent addStudentScreen = new AddStudent();
+        dispose();
+        addStudentScreen.setVisible(true);
     }//GEN-LAST:event_btGoAddStudentActionPerformed
 
     private void btGoToEditTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditTeacherActionPerformed
-        // TODO add your handling code here:
+        EditTeacher editTeacher = new EditTeacher();
+        dispose();
+        editTeacher.setVisible(true);
     }//GEN-LAST:event_btGoToEditTeacherActionPerformed
+
+    private void btGoToCreateTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCreateTeacherActionPerformed
+        AddTeacher addTeacherScreen = new AddTeacher();
+        dispose();
+        addTeacherScreen.setVisible(true);
+    }//GEN-LAST:event_btGoToCreateTeacherActionPerformed
+
+    private void btGoToCreateClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCreateClassActionPerformed
+        AddClass addClassScreen = new AddClass();
+        dispose();
+        addClassScreen.setVisible(true);
+
+    }//GEN-LAST:event_btGoToCreateClassActionPerformed
+
+    private void btGoToStudentsCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToStudentsCostActionPerformed
+       StudentsCostPage studentsCostPage =  new StudentsCostPage();
+       dispose();
+       studentsCostPage.setVisible(true);
+    }//GEN-LAST:event_btGoToStudentsCostActionPerformed
+
+    private void btGoToTeachersCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToTeachersCostActionPerformed
+       TeachersCostPage teachersCostPage =  new TeachersCostPage();
+       dispose();
+       teachersCostPage.setVisible(true);  
+            
+    }//GEN-LAST:event_btGoToTeachersCostActionPerformed
+
+    private void btGoToAanwezigheidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToAanwezigheidActionPerformed
+       aanwezigheid aanwezigheidScreen = new aanwezigheid();
+       dispose();
+       aanwezigheidScreen.setVisible(true);
+    }//GEN-LAST:event_btGoToAanwezigheidActionPerformed
+
+    private void btGoToEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditStudentActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        EditStudents editStudent = new EditStudents();
+        dispose();
+        editStudent.setVisible(true);
+    }//GEN-LAST:event_btGoToEditStudentActionPerformed
+
+    private void btGoToEditClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditClassActionPerformed
+        // TODO add your handling code here:
+        EditClas editClasScreen = new EditClas();
+        dispose();
+        editClasScreen.setVisible(true);
+    }//GEN-LAST:event_btGoToEditClassActionPerformed
+
+    private void btLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogOutActionPerformed
+        // TODO add your handling code here:
+        LoginScreen loginScreenScreen = new LoginScreen();
+        dispose();
+        loginScreenScreen.setVisible(true);
+
+
+    }//GEN-LAST:event_btLogOutActionPerformed
+
+    private void btCloseAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btCloseAppActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

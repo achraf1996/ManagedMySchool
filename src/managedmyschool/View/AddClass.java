@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import managedmyschool.Controller.ClassMethodes;
 import managedmyschool.Controller.StudentsMethodes;
-import managedmyschool.Controller.teacherMethodes;
+import managedmyschool.Controller.HelperMethodes;
+import managedmyschool.Controller.TeachersMethodes;
 import managedmyschool.Model.Aanwezigheid;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
@@ -29,9 +30,10 @@ public class AddClass extends javax.swing.JFrame {
 
     ClassMethodes classMethode;
     StudentsMethodes studentMethode;
-    teacherMethodes teacherMethode;
+    TeachersMethodes teacherMethode;
     List<Lesson> lessonList;
     Boolean columsAreSet;
+    List<Teacher> teacherList;
 
     List<Student> studentList;
 
@@ -61,8 +63,10 @@ public class AddClass extends javax.swing.JFrame {
         lessonList = new ArrayList<Lesson>();
         classMethode = new ClassMethodes();
         studentMethode = new StudentsMethodes();
-        teacherMethode = new teacherMethodes();
+        teacherMethode = new TeachersMethodes();
         studentList = new ArrayList<Student>();
+        teacherList = teacherMethode.getTeachers();
+        
     }
 
     public AddClass(ClassMethodes classMeth) {
@@ -145,7 +149,6 @@ public class AddClass extends javax.swing.JFrame {
 
         lbTeacher.setText("Leraar:");
 
-        List<Teacher> teacherList = this.teacherMethode.getTeachers();
         this.cbTeachers.addItem("Selecteer een Leraar (optioneel)");
 
         for(Teacher teacher : teacherList){
@@ -268,13 +271,7 @@ public class AddClass extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btGoBackActionPerformed
 
-    private Boolean checkIfNull(String var) {
-        if (var.replace(" ", "") == "") {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     private void fillStudentTable() {
 
@@ -305,15 +302,35 @@ public class AddClass extends javax.swing.JFrame {
         List<Aanwezigheid> selectedStudentsIds = new ArrayList<Aanwezigheid>();
         String selectedKlas = this.cbClasses.getSelectedItem().toString();
         String newClassName = this.tbClassName.getText();
+        String newTeacher = this.cbTeachers.getSelectedItem().toString();
+        int startTime = HelperMethodes.tryParseInt(this.tbBeginTime.getText()) ? Integer.parseInt(this.tbBeginTime.getText()) : 0;
+        int endTime = HelperMethodes.tryParseInt(this.tbEndTime.getText()) ? Integer.parseInt(this.tbEndTime.getText()) : 0;
+        String classRoom  = this.tbClassName.getText();
+        
+        
         String respMessage = "";
         Boolean isSucces = false;
 
-        if (!checkIfNull(this.tbClassName.getText())
-                || selectedKlas != "Selecteer een klas") {
-            // createClass
-            //     c Lesson(String className , int teacherId,
-            //Time startTime, Time endTime, Classrooms classRoom
-            this.classMethode.createClass(new Lesson(newClassName, 14, 15, "CLASS"));
+        if (!HelperMethodes.checkIfNull(this.tbClassName.getText())
+                || selectedKlas.equalsIgnoreCase("Selecteer een klas")) {
+
+            if (newTeacher.startsWith("Selecteer")) {
+                this.classMethode.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+            }
+            else{
+            Teacher newTeacherInList = this.teacherList.stream().filter(
+            teacher -> teacher.getFirstName().equalsIgnoreCase(newTeacher.split(",")[0]) 
+             && 
+            teacher.getLastName().equalsIgnoreCase(newTeacher.split(",")[1])         
+            ).findAny().orElse(null);
+            
+            if(newTeacherInList !=  null) this.teacherMethode.addTeacherToClass(newClassName,newTeacherInList.getId());
+            
+            
+            this.classMethode.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+
+            }
+            
             if (selectedKlas.toLowerCase() != "Selecteer een klas".toLowerCase()) {
                 respMessage = studentMethode.copyFromClas(selectedKlas, this.tbClassName.getText());
             } else {

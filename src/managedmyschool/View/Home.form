@@ -116,17 +116,26 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Leraar aanmaken"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToCreateTeacherActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToCreateClass">
       <Properties>
         <Property name="text" type="java.lang.String" value="Klas aanmaken"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToCreateClassActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToEditStudent">
       <Properties>
         <Property name="text" type="java.lang.String" value="Student Wijzigen"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToEditStudentActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToEditTeacher">
       <Properties>
@@ -141,31 +150,49 @@
         <Property name="text" type="java.lang.String" value="Klas Wijzigen"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToEditClassActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToStudentsCost">
       <Properties>
         <Property name="text" type="java.lang.String" value="Studenten kosten"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToStudentsCostActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btCloseApp">
       <Properties>
         <Property name="text" type="java.lang.String" value="Afsluiten"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCloseAppActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToTeachersCost">
       <Properties>
         <Property name="text" type="java.lang.String" value="Leraren kosten"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToTeachersCostActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btGoToAanwezigheid">
       <Properties>
         <Property name="text" type="java.lang.String" value="Aanwezigheid "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGoToAanwezigheidActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btLogOut">
       <Properties>
         <Property name="text" type="java.lang.String" value="Uitloggen"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btLogOutActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

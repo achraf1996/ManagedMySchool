@@ -16,14 +16,14 @@ import managedmyschool.Model.Lesson;
  *
  * @author achrafchennan
  */
-public class loginMethodes {
+public class LoginMethodes {
 
     Statement st = null;
     PreparedStatement stprep = null;
     Connection conn;
     String query;
 
-    public loginMethodes() {
+    public LoginMethodes() {
         this.conn = new SQLMethode().conn;
 
     }

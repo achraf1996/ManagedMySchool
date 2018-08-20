@@ -10,19 +10,19 @@ package managedmyschool.Model;
  * @author achrafchennan
  */
 public class Aanwezigheid {
-    String id;
+    int id;
     boolean isAanwezig;
     
-    public Aanwezigheid(String id, boolean isAanwezig){
+    public Aanwezigheid(int id, boolean isAanwezig){
     this.id = id;
     this.isAanwezig = isAanwezig;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
