@@ -235,7 +235,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="            &#xa;         lessonList = this.classMethode.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="         if(lessonList == null){&#xa;         createConstructor();&#xa;         }   &#xa;         lessonList = this.classMethodes.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

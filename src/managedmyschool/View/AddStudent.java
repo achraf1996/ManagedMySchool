@@ -16,6 +16,7 @@ import managedmyschool.Controller.ClassMethodes;
 import managedmyschool.Controller.StudentsMethodes;
 import static managedmyschool.Controller.HelperMethodes.checkIfNull;
 import static managedmyschool.Controller.HelperMethodes.tryParseInt;
+import managedmyschool.Controller.TeachersMethodes;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
 
@@ -26,8 +27,8 @@ import managedmyschool.Model.Student;
  */
 public class AddStudent extends javax.swing.JFrame {
     
-    ClassMethodes classMethode;
-    StudentsMethodes studentMethodes;
+    ClassMethodes classMethodes;
+    StudentsMethodes studentsMethodes;
     List<Lesson> lessonList;
 
 
@@ -37,14 +38,11 @@ public class AddStudent extends javax.swing.JFrame {
     public AddStudent() {
         initComponents();
         lessonList = new ArrayList<Lesson>();
-        classMethode = new ClassMethodes();
-        studentMethodes = new StudentsMethodes();
+
     }
 
      public AddStudent(ClassMethodes classMeth) {
         initComponents();
-        lessonList = new ArrayList<Lesson>();
-        classMethode = classMeth;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,7 +100,10 @@ public class AddStudent extends javax.swing.JFrame {
 
         lbCreateStudentTitle.setText("Student aanmaken");
 
-        lessonList = this.classMethode.getClasses();
+        if(lessonList == null){
+            createConstructor();
+        }
+        lessonList = this.classMethodes.getClasses();
         cbClasses.addItem("Selecteer een klas");
 
         for(Lesson les : lessonList){
@@ -253,7 +254,16 @@ public class AddStudent extends javax.swing.JFrame {
             main.setVisible(true);
           
     }//GEN-LAST:event_btGoBackActionPerformed
+    
+    
+      public void createConstructor() {
 
+        this.classMethodes = new ClassMethodes();
+        this.studentsMethodes = new StudentsMethodes();
+
+        this.lessonList = classMethodes.getClasses();
+
+    }
     
     private void btCreateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateStudentActionPerformed
         // TODO add your handling code here:
@@ -294,7 +304,7 @@ public class AddStudent extends javax.swing.JFrame {
                
                ){
            
-           String respMessage =  studentMethodes.addNewStudent(voorNaam,achterNaam,date,selectedKlas, phoneParents, parentsName, monthleyPayment, shartNumber);
+           String respMessage =  studentsMethodes.addNewStudent(voorNaam,achterNaam,date,selectedKlas, phoneParents, parentsName, monthleyPayment, shartNumber);
            if(respMessage.startsWith("Het"))
                showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
            else
