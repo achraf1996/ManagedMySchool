@@ -175,7 +175,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="klassenCBActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="    List&lt;Lesson&gt; lessons = classMethode.getClasses();&#xa;        klassenCB.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessons){&#xa;        klassenCB.addItem(les.getClassName());&#xa;        }"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="   &#xa;        if(classMethodes == null) classMethodes = new ClassMethodes();&#xa;        &#xa;List&lt;Lesson&gt; lessons = classMethodes.getClasses();&#xa;        klassenCB.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessons){&#xa;        klassenCB.addItem(les.getClassName());&#xa;        }&#xa;"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
@@ -316,7 +316,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectionChanged"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;        &#xa;        lessons = classMethode.getClasses();&#xa;        klassenSetCB.addItem(&quot;Selecteer een klas&quot;);&#xa;    &#xa;        for(Lesson les : lessons){&#xa;        klassenSetCB.addItem(les.getClassName());&#xa;        }&#xa;       &#xa;"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;        &#xa;        lessons = classMethodes.getClasses();&#xa;        klassenSetCB.addItem(&quot;Selecteer een klas&quot;);&#xa;    &#xa;        for(Lesson les : lessons){&#xa;        klassenSetCB.addItem(les.getClassName());&#xa;        }&#xa;       &#xa;"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>

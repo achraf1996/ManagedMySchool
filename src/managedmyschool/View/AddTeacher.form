@@ -52,7 +52,7 @@
                                   <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="tbPhone" pref="80" max="32767" attributes="0"/>
-                                      <Component id="cbKlassen" max="32767" attributes="0"/>
+                                      <Component id="cbClasses" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -125,7 +125,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbKlassen" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbClasses" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -193,14 +193,14 @@
             <Property name="text" type="java.lang.String" value="Leraar aanmaken"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbKlassen">
+        <Component class="javax.swing.JComboBox" name="cbClasses">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="&#xa;         lessonList = this.classMethode.getClasses();&#xa;        cbKlassen.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbKlassen.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="         if(lessonList == null){&#xa;         createConstructor();&#xa;         }   &#xa;         lessonList = this.classMethodes.getClasses();&#xa;        cbClasses.addItem(&quot;Selecteer een klas&quot;);&#xa;&#xa;        for(Lesson les : lessonList){&#xa;        cbClasses.addItem(les.getClassName());&#xa;        }&#xa;&#xa;        "/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>

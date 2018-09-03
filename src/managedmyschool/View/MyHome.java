@@ -14,8 +14,15 @@ public class MyHome extends javax.swing.JFrame {
     /**
      * Creates new form MyHome
      */
-        public MyHome() {
+    String loginUser;
+
+    public MyHome() {
         initComponents();
+    }
+
+    public MyHome(String loginUser) {
+        initComponents();
+        this.loginUser = loginUser;
     }
 
     /**
@@ -215,19 +222,19 @@ public class MyHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGoAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoAddStudentActionPerformed
-        AddStudent addStudentScreen = new AddStudent();
+        AddStudent addStudentScreen = new AddStudent(this.loginUser);
         dispose();
         addStudentScreen.setVisible(true);
     }//GEN-LAST:event_btGoAddStudentActionPerformed
 
     private void btGoToCreateTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCreateTeacherActionPerformed
-        AddTeacher addTeacherScreen = new AddTeacher();
+        AddTeacher addTeacherScreen = new AddTeacher(this.loginUser);
         dispose();
         addTeacherScreen.setVisible(true);
     }//GEN-LAST:event_btGoToCreateTeacherActionPerformed
 
     private void btGoToCreateClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCreateClassActionPerformed
-        AddClass addClassScreen = new AddClass();
+        AddClass addClassScreen = new AddClass(this.loginUser);
         dispose();
         addClassScreen.setVisible(true);
     }//GEN-LAST:event_btGoToCreateClassActionPerformed
@@ -235,43 +242,43 @@ public class MyHome extends javax.swing.JFrame {
     private void btGoToEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditStudentActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
-        EditMyStudents editStudent = new EditMyStudents();
+        EditMyStudents editStudent = new EditMyStudents(this.loginUser);
         dispose();
         editStudent.setVisible(true);
     }//GEN-LAST:event_btGoToEditStudentActionPerformed
 
     private void btGoToEditTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditTeacherActionPerformed
-        EditMyTeacher editTeacher = new EditMyTeacher();
+        EditMyTeacher editTeacher = new EditMyTeacher(this.loginUser);
         dispose();
         editTeacher.setVisible(true);
     }//GEN-LAST:event_btGoToEditTeacherActionPerformed
 
     private void btGoToEditClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditClassActionPerformed
         // TODO add your handling code here:
-        EditMyClass editClasScreen = new EditMyClass();
+        EditMyClass editClasScreen = new EditMyClass(this.loginUser);
         dispose();
         editClasScreen.setVisible(true);
     }//GEN-LAST:event_btGoToEditClassActionPerformed
 
     private void btGoToStudentsCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToStudentsCostActionPerformed
-        StudentsCostPage studentsCostPage =  new StudentsCostPage();
+        TrackStudentsPayments studentsCostPage = new TrackStudentsPayments(this.loginUser);
         dispose();
         studentsCostPage.setVisible(true);
     }//GEN-LAST:event_btGoToStudentsCostActionPerformed
 
     private void btCloseAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseAppActionPerformed
-        //  System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btCloseAppActionPerformed
 
     private void btGoToTeachersCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToTeachersCostActionPerformed
-        TeachersCostPage teachersCostPage =  new TeachersCostPage();
+        TrackTeacherSalary teachersCostPage = new TrackTeacherSalary(this.loginUser);
         dispose();
         teachersCostPage.setVisible(true);
 
     }//GEN-LAST:event_btGoToTeachersCostActionPerformed
 
     private void btGoToAanwezigheidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToAanwezigheidActionPerformed
-        aanwezigheid aanwezigheidScreen = new aanwezigheid();
+        aanwezigheid aanwezigheidScreen = new aanwezigheid(this.loginUser);
         dispose();
         aanwezigheidScreen.setVisible(true);
     }//GEN-LAST:event_btGoToAanwezigheidActionPerformed
