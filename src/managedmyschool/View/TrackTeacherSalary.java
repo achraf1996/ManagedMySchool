@@ -30,7 +30,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
     List<Teacher> teachersList;
     Teacher selectedTeacher;
     Boolean columsAreSet;
-    String loginUser;
+
     private DefaultTableModel modelSetTable = new DefaultTableModel() {
         public Class<?> getColumnClass(int column) {
             switch (column) {
@@ -50,11 +50,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
      */
     public TrackTeacherSalary() {
         initComponents();
-    }
 
-    public TrackTeacherSalary(String loginUser) {
-        initComponents();
-        this.loginUser = loginUser;
     }
 
     public void createConstructor() {
@@ -373,7 +369,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
     }//GEN-LAST:event_cbTeachersActionPerformed
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
-        MyHome main = new MyHome();
+        mainAppFrame main = new mainAppFrame();
         this.setVisible(false);
 
         main.setVisible(true);

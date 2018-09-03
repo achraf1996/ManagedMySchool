@@ -34,7 +34,21 @@ public class TeachersMethodes {
         st = null;
     }
 
+    private void getTeacher(String id) {
 
+    }
+
+    private void updateTeacher(Teacher teacher) {
+
+    }
+
+    private void removeTeacher(String id) {
+
+    }
+
+    private void setSalaryMonthley(String month, int teacherId) {
+
+    }
 
     public String addTeacherToClass(String className, int teacherId) {
 
@@ -52,6 +66,7 @@ public class TeachersMethodes {
             stprep.setInt(1, teacherId);
             stprep.setString(2, className);
             stprep.executeUpdate();
+            stprep.close();
             isSucces = true;
 
         } catch (SQLException ex) {
@@ -113,6 +128,7 @@ public class TeachersMethodes {
 
             String query = "SELECT * FROM TEACHER;";
             st = conn.createStatement();
+
             rs = st.executeQuery(query);
             while (rs.next()) {
                 //modify db to fit the purpose
@@ -125,10 +141,10 @@ public class TeachersMethodes {
                 teachersList.add(new Teacher(id, firstName, lastName, birthDay, phoneNumber, salary));
             }
 
+            conn.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        
         return teachersList;
     }
 
@@ -136,7 +152,7 @@ public class TeachersMethodes {
             String phoneNumber, int salary) {
 
         int id = 0;
-        String query = "INSERT INTO Teacher ("
+        String query = "INSERT INTO Student ("
                 + "firstName,"
                 + "lastName,"
                 + "birthDay,"
@@ -171,19 +187,18 @@ public class TeachersMethodes {
             isSucces = true;
 
         } catch (SQLException ex) {
-            return "Er is iets mis gegaan bij het aanmaken van de leraar, probeer het opnieuw.";
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
         } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
-            return "Er is iets mis gegaan bij het aanmaken van de leraar, probeer het opnieuw.";
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
 
         }
         if (isSucces) {
-            return "Het aanmaken van de leraar is succesvol verlopen";
+            return "Het aanmaken van de student is succesvol verlopen";
         } else {
-            return "Er is iets mis gegaan bij het aanmaken van de leraar, probeer het opnieuw.";
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
         }
-        
 
     }
 
@@ -214,7 +229,7 @@ public class TeachersMethodes {
 
     public String updateTeacher(int id, String firstName, String lastName, Date birthDay,
             String phoneNumber, int salary) {
-        String query = "UPDATE Teacher set firstName = ?, lastName = ?, birthDay = ?, phoneNumber = ?, salary = ? WHERE id =" + id + ";";
+        String query = "UPDATE Student set firstname = ?, lastName = ?, birthDay = ?, phoneNumber = ?, salary = ? WHERE id =" + id + ";";
 
         ResultSet rs;
 

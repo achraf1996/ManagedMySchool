@@ -5,7 +5,6 @@
  */
 package managedmyschool;
 
-import javax.swing.SwingUtilities;
 import managedmyschool.View.*;
 
 /**
@@ -13,21 +12,9 @@ import managedmyschool.View.*;
  * @author achrafchennan
  */
 public class ManagedMySchool {
-    
-    
-    private static void createAndShowGUI() {
-        new EditMyClass();
-    }
-
         public static void main(String[] args) {
         // TODO code application logic here
-        
-//        EditMyClass newClassPAge = new EditMyClass();
-//        newClassPAge.setVisible(true);
-         //   EditMyStudents editMyStudents = new EditMyStudents();
-          //  editMyStudents.setVisible(true);
-          TrackStudentsPayments addClass = new TrackStudentsPayments();
-          addClass.setVisible(true);
-
+        Home app = new Home("");
+        app.setVisible(true);
     }
 }

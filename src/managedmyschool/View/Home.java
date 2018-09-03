@@ -5,17 +5,27 @@
  */
 package managedmyschool.View;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author achrafchennan
  */
-public class MyHome extends javax.swing.JFrame {
+public class Home extends javax.swing.JPanel {
+
+    String userName;
 
     /**
-     * Creates new form MyHome
+     * Creates new form Home
      */
-        public MyHome() {
+    public Home(String userName) {
         initComponents();
+        this.userName = userName;
+    }
+
+    public void dispose() {
+        JFrame parent = (JFrame) this.getTopLevelAncestor();
+        parent.dispose();
     }
 
     /**
@@ -27,7 +37,6 @@ public class MyHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         btGoAddStudent = new javax.swing.JButton();
         btGoToCreateTeacher = new javax.swing.JButton();
         btGoToCreateClass = new javax.swing.JButton();
@@ -39,8 +48,6 @@ public class MyHome extends javax.swing.JFrame {
         btGoToTeachersCost = new javax.swing.JButton();
         btGoToAanwezigheid = new javax.swing.JButton();
         btLogOut = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btGoAddStudent.setText("Student aanmaken");
         btGoAddStudent.setToolTipText("");
@@ -122,65 +129,65 @@ public class MyHome extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(btCloseApp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btLogOut))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btGoAddStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btGoToCreateTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(btGoToCreateClass, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btGoToStudentsCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btGoToTeachersCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btGoToAanwezigheid, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btGoToEditStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btGoToEditTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btGoToEditClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(16, 16, 16))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btGoAddStudent)
                     .addComponent(btGoToEditStudent))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btGoToCreateTeacher)
                     .addComponent(btGoToEditTeacher))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btGoToCreateClass)
                             .addComponent(btGoToEditClass))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btCloseApp)
                                 .addGap(20, 20, 20))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btLogOut)
                                 .addGap(28, 28, 28))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                         .addComponent(btGoToStudentsCost)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -189,29 +196,6 @@ public class MyHome extends javax.swing.JFrame {
                         .addComponent(btGoToAanwezigheid)
                         .addGap(50, 50, 50))))
         );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 533, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGoAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoAddStudentActionPerformed
@@ -219,6 +203,12 @@ public class MyHome extends javax.swing.JFrame {
         dispose();
         addStudentScreen.setVisible(true);
     }//GEN-LAST:event_btGoAddStudentActionPerformed
+
+    private void btGoToEditTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditTeacherActionPerformed
+        EditTeacher editTeacher = new EditTeacher();
+        dispose();
+        editTeacher.setVisible(true);
+    }//GEN-LAST:event_btGoToEditTeacherActionPerformed
 
     private void btGoToCreateTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCreateTeacherActionPerformed
         AddTeacher addTeacherScreen = new AddTeacher();
@@ -230,94 +220,56 @@ public class MyHome extends javax.swing.JFrame {
         AddClass addClassScreen = new AddClass();
         dispose();
         addClassScreen.setVisible(true);
+
     }//GEN-LAST:event_btGoToCreateClassActionPerformed
+
+    private void btGoToStudentsCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToStudentsCostActionPerformed
+       StudentsCostPage studentsCostPage =  new StudentsCostPage();
+       dispose();
+       studentsCostPage.setVisible(true);
+    }//GEN-LAST:event_btGoToStudentsCostActionPerformed
+
+    private void btGoToTeachersCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToTeachersCostActionPerformed
+       TeachersCostPage teachersCostPage =  new TeachersCostPage();
+       dispose();
+       teachersCostPage.setVisible(true);  
+            
+    }//GEN-LAST:event_btGoToTeachersCostActionPerformed
+
+    private void btGoToAanwezigheidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToAanwezigheidActionPerformed
+       aanwezigheid aanwezigheidScreen = new aanwezigheid();
+       dispose();
+       aanwezigheidScreen.setVisible(true);
+    }//GEN-LAST:event_btGoToAanwezigheidActionPerformed
 
     private void btGoToEditStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditStudentActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
-        EditMyStudents editStudent = new EditMyStudents();
+        EditStudents editStudent = new EditStudents();
         dispose();
         editStudent.setVisible(true);
     }//GEN-LAST:event_btGoToEditStudentActionPerformed
 
-    private void btGoToEditTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditTeacherActionPerformed
-        EditMyTeacher editTeacher = new EditMyTeacher();
-        dispose();
-        editTeacher.setVisible(true);
-    }//GEN-LAST:event_btGoToEditTeacherActionPerformed
-
     private void btGoToEditClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToEditClassActionPerformed
         // TODO add your handling code here:
-        EditMyClass editClasScreen = new EditMyClass();
+        EditClas editClasScreen = new EditClas();
         dispose();
         editClasScreen.setVisible(true);
     }//GEN-LAST:event_btGoToEditClassActionPerformed
 
-    private void btGoToStudentsCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToStudentsCostActionPerformed
-        StudentsCostPage studentsCostPage =  new StudentsCostPage();
-        dispose();
-        studentsCostPage.setVisible(true);
-    }//GEN-LAST:event_btGoToStudentsCostActionPerformed
-
-    private void btCloseAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseAppActionPerformed
-        //  System.exit(0);
-    }//GEN-LAST:event_btCloseAppActionPerformed
-
-    private void btGoToTeachersCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToTeachersCostActionPerformed
-        TeachersCostPage teachersCostPage =  new TeachersCostPage();
-        dispose();
-        teachersCostPage.setVisible(true);
-
-    }//GEN-LAST:event_btGoToTeachersCostActionPerformed
-
-    private void btGoToAanwezigheidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToAanwezigheidActionPerformed
-        aanwezigheid aanwezigheidScreen = new aanwezigheid();
-        dispose();
-        aanwezigheidScreen.setVisible(true);
-    }//GEN-LAST:event_btGoToAanwezigheidActionPerformed
-
     private void btLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogOutActionPerformed
         // TODO add your handling code here:
-        MyLoginScreen loginScreenScreen = new MyLoginScreen();
+        LoginScreen loginScreenScreen = new LoginScreen();
         dispose();
         loginScreenScreen.setVisible(true);
 
+
     }//GEN-LAST:event_btLogOutActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MyHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MyHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MyHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MyHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btCloseAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btCloseAppActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MyHome().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCloseApp;
@@ -331,6 +283,5 @@ public class MyHome extends javax.swing.JFrame {
     private javax.swing.JButton btGoToStudentsCost;
     private javax.swing.JButton btGoToTeachersCost;
     private javax.swing.JButton btLogOut;
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

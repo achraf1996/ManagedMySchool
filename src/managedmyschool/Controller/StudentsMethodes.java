@@ -101,6 +101,7 @@ public class StudentsMethodes {
                             shartNumber, monthleyPayment, parentName));
                 }
             }
+            conn.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
@@ -130,13 +131,14 @@ public class StudentsMethodes {
                 birthDay = rs.getDate("birthDay");
                 phoneNumberParent = rs.getString("phoneNumberParent");
                 parentName = rs.getString("parentName");
-                monthleyPayment = rs.getInt("monthleyPayment");
+                monthleyPayment = rs.getInt("monthleyPayMent");
                 shartNumber = rs.getInt("shartNumber");
 
                 studentsList.add(new Student(id, firstName, lastName, birthDay, phoneNumberParent,
                         shartNumber, monthleyPayment, parentName));
             }
 
+            conn.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
@@ -148,7 +150,15 @@ public class StudentsMethodes {
     ) {
 
         int id = 0;
-        String query = "INSERT INTO Student (firstName,lastName,birthDay,phoneNumberParent,parentName,monthleyPayment,shartNumber ) VALUES (?,?,?,?,?,?,?);";
+        String query = "INSERT INTO Student ("
+                + "firstName,"
+                + "lastName,"
+                + "birthDay,"
+                + "phoneNumberParent,"
+                + "parentName,"
+                + "monthleyPayment"
+                + "shartNumber ) VALUES ("
+                + "?,?,?,?)";
 
         ResultSet rs;
 
@@ -176,7 +186,7 @@ public class StudentsMethodes {
                 id = rs.getInt(1);
             }
             stprep.close();
-            if (id > 0) {
+            if (id != 0) {
                 isSucces = this.addStudentToClass(id, className);
             }
 
@@ -314,6 +324,11 @@ public class StudentsMethodes {
             stprep.setInt(6, monthleyPayment);
             stprep.setInt(7, shartNumber);
             stprep.executeUpdate();
+            rs = stprep.getGeneratedKeys();
+
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
             stprep.close();
             isSucces = true;
 

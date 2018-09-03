@@ -28,17 +28,14 @@ import managedmyschool.Model.Teacher;
  */
 public class AddClass extends javax.swing.JFrame {
 
-    
-    
-    ClassMethodes classMethodes;
-    StudentsMethodes studentsMethodes;
-    TeachersMethodes teachersMethodes;
+    ClassMethodes classMethode;
+    StudentsMethodes studentMethode;
+    TeachersMethodes teacherMethode;
     List<Lesson> lessonList;
     Boolean columsAreSet;
-    List<Teacher> teachersList;
-        String loginUser;
+    List<Teacher> teacherList;
 
-    List<Student> studentsList;
+    List<Student> studentList;
 
     private DefaultTableModel modelSetTable = new DefaultTableModel() {
         public Class<?> getColumnClass(int column) {
@@ -63,26 +60,20 @@ public class AddClass extends javax.swing.JFrame {
      */
     public AddClass() {
         initComponents();
-
+        lessonList = new ArrayList<Lesson>();
+        classMethode = new ClassMethodes();
+        studentMethode = new StudentsMethodes();
+        teacherMethode = new TeachersMethodes();
+        studentList = new ArrayList<Student>();
+        teacherList = teacherMethode.getTeachers();
         
     }
 
-    public AddClass(String login) {
+    public AddClass(ClassMethodes classMeth) {
         initComponents();
-        this.loginUser = login;
-    }
-    
-        public void createConstructor() {
-
-        this.classMethodes = new ClassMethodes();
-        this.teachersMethodes = new TeachersMethodes();
-        this.studentsMethodes = new StudentsMethodes();
-        this.lessonList = classMethodes.getClasses();
-                columsAreSet = false;
-
-        this.teachersList = teachersMethodes.getTeachers();
-        studentsList = this.studentsMethodes.getAllStudents();
-        fillStudentTable();
+        lessonList = new ArrayList<Lesson>();
+        classMethode = classMeth;
+        columsAreSet = false;
     }
 
     /**
@@ -102,6 +93,8 @@ public class AddClass extends javax.swing.JFrame {
         lbAddClassTitle = new javax.swing.JLabel();
         lbImportFrom = new javax.swing.JLabel();
         cbClasses = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbPickStudents = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         lbTeacher = new javax.swing.JLabel();
         cbTeachers = new javax.swing.JComboBox<>();
@@ -111,9 +104,6 @@ public class AddClass extends javax.swing.JFrame {
         tbBeginTime = new javax.swing.JTextField();
         lbClassName3 = new javax.swing.JLabel();
         tbEndTime = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbPickStudentsTable = new javax.swing.JTable();
-        btGetStudent = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,14 +127,23 @@ public class AddClass extends javax.swing.JFrame {
 
         lbImportFrom.setText("Importeer uit");
 
-        if(this.lessonList == null){
-            this.createConstructor();
-        }
+        lessonList = classMethode.getClasses();
         cbClasses.addItem("Selecteer een klas");
 
         for(Lesson les : lessonList){
             cbClasses.addItem(les.getClassName());
         }
+
+        this.fillStudentTable();
+        tbPickStudents.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tbPickStudents);
 
         jLabel10.setText("Alle leerlingen");
 
@@ -152,7 +151,7 @@ public class AddClass extends javax.swing.JFrame {
 
         this.cbTeachers.addItem("Selecteer een Leraar (optioneel)");
 
-        for(Teacher teacher : teachersList){
+        for(Teacher teacher : teacherList){
             cbTeachers.addItem(teacher.getFirstName() + "," + teacher.getLastName());
         }
 
@@ -162,35 +161,19 @@ public class AddClass extends javax.swing.JFrame {
 
         lbClassName3.setText("t/m");
 
-        tbPickStudentsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(tbPickStudentsTable);
-
-        btGetStudent.setActionCommand("");
-        btGetStudent.setLabel("Haal studenten op");
-        btGetStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btGetStudentActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbAddClassTitle)
+                .addGap(288, 288, 288))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btGoBack)
-                        .addGap(186, 186, 186)
-                        .addComponent(btGetStudent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btCreateClass))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -214,20 +197,15 @@ public class AddClass extends javax.swing.JFrame {
                                     .addComponent(cbTeachers, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(tbClassroom))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(138, 138, 138))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(tbEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(138, 138, 138)))))
                 .addGap(42, 42, 42))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbAddClassTitle)
-                .addGap(288, 288, 288))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,16 +235,13 @@ public class AddClass extends javax.swing.JFrame {
                             .addComponent(lbBeginTime, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tbBeginTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbClassName3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tbEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24))
+                            .addComponent(tbEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btGetStudent)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCreateClass)
                     .addComponent(btGoBack))
@@ -289,7 +264,7 @@ public class AddClass extends javax.swing.JFrame {
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
         // TODO add your handling code here:
-        MyHome  main = new MyHome();
+        mainAppFrame main = new mainAppFrame();
         this.setVisible(false);
 
         main.setVisible(true);
@@ -298,29 +273,25 @@ public class AddClass extends javax.swing.JFrame {
 
     
 
-    public void fillStudentTable() {
+    private void fillStudentTable() {
 
-  this.studentsList = studentsMethodes.getAllStudents();
-        Boolean isInClass = false;
-        this.tbPickStudentsTable.setModel(modelSetTable);
-        this.tbPickStudentsTable.setVisible(true);
+        this.studentList = studentMethode.getAllStudents();
+        tbPickStudents.setModel(modelSetTable);
         if (!this.columsAreSet) {
             modelSetTable.addColumn("ID");
             modelSetTable.addColumn("Voornaam");
             modelSetTable.addColumn("Achternaam");
-            modelSetTable.addColumn("Toegevoegd");
+            modelSetTable.addColumn("Is aanwezig");
             this.columsAreSet = true;
         }
-        for (int i = 0; i < studentsList.size(); i++) {
-            Student student = studentsList.get(i);
-
-       
-            Object[][] data = {new Object[]{student.getId(), student.getFirstName(), student.getLastName(), new Boolean(isInClass)}};
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            Object[][] data = {new Object[]{student.getId(), student.getFirstName(), student.getLastName(), new Boolean(false)}};
             modelSetTable.addRow(data);
             modelSetTable.setValueAt(student.getId(), i, 0);
             modelSetTable.setValueAt(student.getFirstName(), i, 1);
             modelSetTable.setValueAt(student.getLastName(), i, 2);
-            modelSetTable.setValueAt(isInClass, i, 3);
+            modelSetTable.setValueAt(false, i, 3);
         }
 
     }
@@ -344,24 +315,24 @@ public class AddClass extends javax.swing.JFrame {
                 || selectedKlas.equalsIgnoreCase("Selecteer een klas")) {
 
             if (newTeacher.startsWith("Selecteer")) {
-                this.classMethodes.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+                this.classMethode.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
             }
             else{
-            Teacher newTeacherInList = this.teachersList.stream().filter(
+            Teacher newTeacherInList = this.teacherList.stream().filter(
             teacher -> teacher.getFirstName().equalsIgnoreCase(newTeacher.split(",")[0]) 
              && 
             teacher.getLastName().equalsIgnoreCase(newTeacher.split(",")[1])         
             ).findAny().orElse(null);
             
-            if(newTeacherInList !=  null) this.teachersMethodes.addTeacherToClass(newClassName,newTeacherInList.getId());
+            if(newTeacherInList !=  null) this.teacherMethode.addTeacherToClass(newClassName,newTeacherInList.getId());
             
             
-            this.classMethodes.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+            this.classMethode.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
 
             }
             
             if (selectedKlas.toLowerCase() != "Selecteer een klas".toLowerCase()) {
-                respMessage = studentsMethodes.copyFromClas(selectedKlas, this.tbClassName.getText());
+                respMessage = studentMethode.copyFromClas(selectedKlas, this.tbClassName.getText());
             } else {
                 for (int i = 0; i < this.modelSetTable.getRowCount(); i++) {
                     Object id = this.modelSetTable.getValueAt(i, 0);
@@ -375,23 +346,10 @@ public class AddClass extends javax.swing.JFrame {
                     }
                 }
                 for (Aanwezigheid selectedStudentsId : selectedStudentsIds) {
-                    studentsMethodes.addStudentToClass(selectedStudentsId.getId(), this.tbClassName.getText());
+                    studentMethode.addStudentToClass(selectedStudentsId.getId(), this.tbClassName.getText());
                     isSucces = true;
                 }
             }
-            if(isSucces){
-                            JOptionPane.showMessageDialog(null,
-                    respMessage,
-                    "Succes",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
-                                            JOptionPane.showMessageDialog(null,
-                    respMessage,
-                    "Mislukt",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-
 
         } else {
 
@@ -403,12 +361,6 @@ public class AddClass extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btCreateClassActionPerformed
-
-    private void btGetStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGetStudentActionPerformed
-        // TODO add your handling code here:
-                        fillStudentTable();
-
-    }//GEN-LAST:event_btGetStudentActionPerformed
 
     public static void showResponse(String responseText, String responseTitle, int joptionpane) {
         JOptionPane.showMessageDialog(null,
@@ -455,13 +407,12 @@ public class AddClass extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCreateClass;
-    private javax.swing.JButton btGetStudent;
     private javax.swing.JButton btGoBack;
     private javax.swing.JComboBox<String> cbClasses;
     private javax.swing.JComboBox<String> cbTeachers;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbAddClassTitle;
     private javax.swing.JLabel lbBeginTime;
     private javax.swing.JLabel lbClassName;
@@ -473,6 +424,6 @@ public class AddClass extends javax.swing.JFrame {
     private javax.swing.JTextField tbClassName;
     private javax.swing.JTextField tbClassroom;
     private javax.swing.JTextField tbEndTime;
-    private javax.swing.JTable tbPickStudentsTable;
+    private javax.swing.JTable tbPickStudents;
     // End of variables declaration//GEN-END:variables
 }

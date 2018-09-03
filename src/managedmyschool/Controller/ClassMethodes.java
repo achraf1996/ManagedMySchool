@@ -62,6 +62,7 @@ public class ClassMethodes {
                 + "endTime ) VALUES ("
                 + "?,?,?,?)";
 
+        ResultSet rs;
 
         try {
 
@@ -71,7 +72,7 @@ public class ClassMethodes {
             stprep.setInt(2, newLesson.getStartTime());
             stprep.setString(3, newLesson.getClassRoom().toString());
             stprep.setInt(4, newLesson.getEndTime());
-            stprep.executeUpdate();
+            rs = stprep.executeQuery();
 
             stprep.close();
             isSucces = true;
@@ -104,9 +105,9 @@ public class ClassMethodes {
             PreparedStatement stprep = conn.prepareStatement(query);
             stprep.setString(1, updateClass.getClassName());
             stprep.setInt(2, updateClass.getTeacher());
-            stprep.setInt(3, updateClass.getStartTime());
+            stprep.setTime(3, updateClass.getStartTime());
             stprep.setString(4, updateClass.getClassRoom().toString());
-            stprep.setInt(5, updateClass.getEndTime());
+            stprep.setTime(5, updateClass.getEndTime());
             rs = stprep.executeQuery();
 
             stprep.close();
@@ -128,7 +129,7 @@ public class ClassMethodes {
 
     public int getClassTeacher(String className) {
         int teacherId = 0;
-        String query = "SELECT * FROM BETWEEN_TEACHERLES WHERE className = '" + className + "';";
+        String query = "SELECT * FROM BETWEEN_TEACHERLES WHERE className = " + className + ";";
         try {
             st = conn.createStatement();
             ResultSet rs;
@@ -147,7 +148,7 @@ public class ClassMethodes {
 
     public Lesson getClassByName(String className) {
         Lesson resultLesson = null;
-        String query = "SELECT * FROM LESSON WHERE className = '" + className + "';";
+        String query = "SELECT * FROM LESSON WHERE className = " + className + ";";
         String classNameResult = "";
         int teacherId = 0;
         int startTime = 0 ;
@@ -267,9 +268,9 @@ public class ClassMethodes {
         String query = "SELECT * FROM LESSON";
         String className = "";
         int teacherId;
-        int startTime;
-        int endTime;
-        String classRoom;
+        Time startTime;
+        Time endTime;
+        Classrooms classRoom;
         try {
 
             st = conn.createStatement();
@@ -278,10 +279,11 @@ public class ClassMethodes {
             while (rs.next()) {
                 //modify db to fit the purpose
                 className = rs.getString("className");
-                startTime = rs.getInt("startTime");
-                endTime = rs.getInt("endTime");
-                classRoom = rs.getString("classRoom");
-                 teacherId = this.getClassTeacher(className);
+                teacherId = rs.getInt("teacher");
+                startTime = rs.getTime("startTime");
+                endTime = rs.getTime("endTime");
+                classRoom = this.getEnumValue(rs.getString("classRoom"));
+
                 classes.add(new Lesson(className, teacherId, startTime, endTime, classRoom));
 
             }
@@ -317,7 +319,7 @@ public class ClassMethodes {
             for (int i = 0; i < studentIds.size(); i++) {
 
                 stprep.setString(1, className);
-                stprep.setInt(2, studentIds.get(i).getId());
+                stprep.setString(2, studentIds.get(i).getId());
                 stprep.setDate(3, sqlDate);
                 stprep.setBoolean(4, studentIds.get(i).isIsAanwezig());
 
@@ -366,6 +368,7 @@ public class ClassMethodes {
                 aanwezigheidList.add(new AanwezigheidModel(dateAanwezigheid, className, student, isAanwezigheid));
 
             }
+            conn.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             return aanwezigheidList;

@@ -37,7 +37,7 @@ public class PaymentMethodes {
         PreparedStatement stprep = null;
         try {
 
-            String query = "UPDATE PaymentStudents set amount = ?, registerdBy = ?  WHERE studentId = ? AND shartId=? AND month = ? AND year = ?;";
+            String query = "UPDATE PaymentStudents set amount = ?, registerdBy = ?  WHERE studentId = ? AND shartNumber=? AND month = ? AND year = ?;";
             stprep = conn.prepareStatement(query);
             stprep.setInt(1, amount);
             stprep.setString(2, registerdBy);
@@ -119,24 +119,21 @@ public class PaymentMethodes {
 
             // still needs add student to shart
             PreparedStatement stprep = conn.prepareStatement(query);
-            stprep.setInt(1, studentId);
-            stprep.setInt(3, year);
-            
             for (int i = 0; i < month.length; i++) {
+                stprep.setInt(1, studentId);
                 stprep.setInt(2, month[i]);
+                stprep.setInt(3, year);
                 ResultSet rs = stprep.executeQuery();
 
                 // PaymentModel(int shartNumber, int studentId, int month, int year, int amount, String registerdBy
                 while (rs.next()) {
-                    paymentList.add(new PaymentModel(rs.getInt("shartId"), rs.getInt("studentId"), rs.getInt("month"), rs.getInt("year"), rs.getInt("amount"), rs.getString("registerdBy")));
+                    paymentList.add(new PaymentModel(rs.getInt("shartNumber"), rs.getInt("studentId"), rs.getInt("month"), rs.getInt("year"), rs.getInt("amount"), rs.getString("registerBy")));
                 }
             }
 
             isSucces = true;
 
         } catch (SQLException ex) {
-            
-            System.out.println("managedmyschool.Controller.PaymentMethodes.getMonthlyContribution()");
         } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();

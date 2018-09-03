@@ -21,38 +21,35 @@ import managedmyschool.Model.SalaryModel;
  *
  * @author achrafchennan
  */
-public class SalaryMethodes {
+public class salaryMethodes {
 
     Connection conn;
     Statement st;
     Boolean isSucces;
 
-    public SalaryMethodes() {
+    public salaryMethodes() {
         this.conn = new SQLMethode().conn;
         this.isSucces = false;
         this.st = null;
 
     }
 
-    public String updatepayTeacher(List<SalaryModel> salaryList) {
+    public String updatepayTeacher(int teacherId, int[] days, int month, int year, int amount, String registerdBy) {
         isSucces = false;
 
         PreparedStatement stprep = null;
         try {
-
-            String query = "UPDATE PaymentTeachers set amount = ?, registerdBy = ?  WHERE teacherId = ? AND day = ? AND month = ? AND year = ?;";
-            stprep = conn.prepareStatement(query);
-
-            for (SalaryModel salaryModel : salaryList) {
-                stprep.setInt(1, salaryModel.getAmount());
-                stprep.setString(2, salaryModel.getRegisterdBy());
-                stprep.setInt(3, salaryModel.getTeacherId());
-                stprep.setInt(4, salaryModel.getDay());
-                stprep.setInt(5, salaryModel.getMonth());
-                stprep.setInt(6, salaryModel.getYear());
+            for (int i = 0; i < days.length; i++) {
+                String query = "UPDATE PaymentTeachers set amount = ?, registerdBy = ?  WHERE teacherId = ? AND day = ? AND month = ? AND year = ?;";
+                stprep = conn.prepareStatement(query);
+                stprep.setInt(1, amount);
+                stprep.setString(2, registerdBy);
+                stprep.setInt(3, teacherId);
+                stprep.setInt(4, days[i]);
+                stprep.setInt(5, month);
+                stprep.setInt(6, year);
                 stprep.executeUpdate();
             }
-
             stprep.close();
             isSucces = true;
 
@@ -73,10 +70,10 @@ public class SalaryMethodes {
 
     }
 
-    public String payTeacher(List<SalaryModel> salaryList) {
+    public String payTeacher(int teacherId, int[] days, int month, int year, String registerdBy, int amount) {
         isSucces = false;
         String query = "INSERT INTO PaymentTeachers ("
-                + "teacherId,"
+                + "teacherid,"
                 + "day,"
                 + "month,"
                 + "year,"
@@ -89,13 +86,13 @@ public class SalaryMethodes {
             // still needs add student to shart
             PreparedStatement stprep = conn.prepareStatement(query);
 
-            for (SalaryModel salaryModel : salaryList) {
-                stprep.setInt(1, salaryModel.getTeacherId());
-                stprep.setInt(2, salaryModel.getDay());
-                stprep.setInt(3, salaryModel.getMonth());
-                stprep.setInt(4, salaryModel.getYear());
-                stprep.setString(5, salaryModel.getRegisterdBy());
-                stprep.setInt(6, salaryModel.getAmount());
+            for (int i = 0; i < days.length; i++) {
+                stprep.setInt(1, teacherId);
+                stprep.setInt(2, teacherId);
+                stprep.setInt(3, month);
+                stprep.setInt(4, year);
+                stprep.setString(5, registerdBy);
+                stprep.setInt(6, amount);
 
                 stprep.executeUpdate();
             }
@@ -132,9 +129,9 @@ public class SalaryMethodes {
             stprep.setInt(2, month);
             stprep.setInt(3, year);
             ResultSet rs = stprep.executeQuery();
-            while (rs.next()) {
-                salaryList.add(new SalaryModel(rs.getInt("amount"), rs.getInt("day"), rs.getInt("month"), rs.getInt("year"), rs.getInt("teacherId"), rs.getString("registerdBy")));
-            }
+             while(rs.next()){
+             salaryList.add(new SalaryModel(rs.getInt("amount"),rs.getInt("day"),rs.getInt("month"), rs.getInt("year"),rs.getInt("teacherId"),rs.getString("registerBy")));                 
+             }
             isSucces = true;
 
         } catch (SQLException ex) {
@@ -142,6 +139,6 @@ public class SalaryMethodes {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
-        return salaryList;
+     return salaryList;
     }
 }

@@ -24,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import managedmyschool.Controller.ClassMethodes;
-import managedmyschool.Controller.StudentsMethodes;
 import managedmyschool.Model.*;
 import static managedmyschool.View.AddStudent.showResponse;
 
@@ -35,7 +34,7 @@ import static managedmyschool.View.AddStudent.showResponse;
 public class aanwezigheid extends javax.swing.JFrame {
 
     private Object[][] COLUMNSSTUDENTTABLESET = {{"ID"}, {"Voornaam"}, {"Achternaam"}, {new javax.swing.JCheckBox(), "Is Aanwezig"}};
-    private String[] COLUMNSSTUDENTTABLE = {"ID", "Aanwezig", "Voornaam", "Achternaam", "NaamOuders", "Telefoonnummer"};
+    private String[] COLUMNSSTUDENTTABLE = {"ID", "Aanwezig", "Voornaam", "Achternaam", "Geboortedatum", "Straatnaam", "Huisnummer", "Postcode"};
 
     private DefaultTableModel model = new DefaultTableModel(COLUMNSSTUDENTTABLE, 0);
 
@@ -61,28 +60,23 @@ public class aanwezigheid extends javax.swing.JFrame {
     List<AanwezigheidModel> aanwezigList;
     List<Student> studentList;
     Boolean columsAreSet = false;
-    String loginUser;
-    StudentsMethodes studentsMethodes;
-    ClassMethodes classMethodes;
+
+    ClassMethodes classMethode;
 
     /**
      * Creates new form aanwezigheid
      */
-    public aanwezigheid(String loginUser) {
+    public aanwezigheid(ClassMethodes classMetho) {
+        lessonList = new ArrayList<Lesson>();
+        aanwezigList = new ArrayList<AanwezigheidModel>();
+        studentList = new ArrayList<Student>();
+        classMethode = classMetho;
         initComponents();
-        this.loginUser = loginUser;
-        classMethodes = new ClassMethodes();
-        lessonList = new ArrayList<Lesson>();
-        aanwezigList = new ArrayList<AanwezigheidModel>();
-        studentList = new ArrayList<Student>();
-        studentsMethodes = new StudentsMethodes();
     }
-
-    public aanwezigheid() {
+        public aanwezigheid() {
         lessonList = new ArrayList<Lesson>();
         aanwezigList = new ArrayList<AanwezigheidModel>();
         studentList = new ArrayList<Student>();
-        studentsMethodes = new StudentsMethodes();
         initComponents();
     }
 
@@ -143,9 +137,7 @@ public class aanwezigheid extends javax.swing.JFrame {
             }
         });
 
-        if(classMethodes == null) classMethodes = new ClassMethodes();
-
-        List<Lesson> lessons = classMethodes.getClasses();
+        List<Lesson> lessons = classMethode.getClasses();
         klassenCB.addItem("Selecteer een klas");
 
         for(Lesson les : lessons){
@@ -238,7 +230,7 @@ public class aanwezigheid extends javax.swing.JFrame {
             }
         });
 
-        lessons = classMethodes.getClasses();
+        lessons = classMethode.getClasses();
         klassenSetCB.addItem("Selecteer een klas");
 
         for(Lesson les : lessons){
@@ -316,7 +308,7 @@ public class aanwezigheid extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jTabbedPane3)
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,15 +350,16 @@ public class aanwezigheid extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 
-            this.aanwezigList = classMethodes.getAanwezigheid(sqlDate.toString(), klassenCB.getSelectedItem().toString());
+            this.aanwezigList = classMethode.getAanwezigheid(sqlDate.toString(), klassenCB.getSelectedItem().toString());
             aanwezigList.stream().distinct().collect(Collectors.toList());
             studentTable.setModel(model);
             for (AanwezigheidModel aanwezigheid : aanwezigList) {
 
                 String aanwezigheidTekst = aanwezigheid.isAanwezig() ? "Ja" : "Nee";
                 Student student = aanwezigheid.getStudent();
+                ZipCode adres = student.getZipCode();
 
-                Object[] data = {student.getId(), aanwezigheidTekst, student.getFirstName(), student.getLastName(), student.getBirthDay().toString()};
+                Object[] data = {student.getId(), aanwezigheidTekst, student.getFirstName(), student.getLastName(), student.getBirthDay().toString(), adres.getStreetName(), adres.getHouseNumber(), adres.getZipCode()};
                 model.addRow(data);
 
             }
@@ -420,9 +413,9 @@ public class aanwezigheid extends javax.swing.JFrame {
                 String idSt = String.valueOf(id);
                 String isAanw = String.valueOf(isAanwezig);
                 Boolean isTrue = isAanw == "true" ? true : false;
-                studentIds.add(new Aanwezigheid(Integer.parseInt(idSt), isTrue));
+                studentIds.add(new Aanwezigheid(idSt, isTrue));
             }
-            respMessage = classMethodes.setAanwezigheid(date, className, studentIds);
+            respMessage = classMethode.setAanwezigheid(date, className, studentIds);
             if (respMessage.startsWith("De")) {
                 showResponse(respMessage, "Ingevoerd", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -451,21 +444,19 @@ public class aanwezigheid extends javax.swing.JFrame {
     }
 
     private void btVorigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVorigeActionPerformed
-        MyHome main = new MyHome();
+        mainAppFrame main = new mainAppFrame();
         this.setVisible(false);
 
         main.setVisible(true);
-
         // TODO add your handling code here:
     }//GEN-LAST:event_btVorigeActionPerformed
 
     private void btVorige1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVorige1ActionPerformed
         // TODO add your handling code here:
-        MyHome main = new MyHome();
+
+        mainAppFrame main = new mainAppFrame();
         this.setVisible(false);
-
         main.setVisible(true);
-
     }//GEN-LAST:event_btVorige1ActionPerformed
 
     private void klassenCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_klassenCBActionPerformed
@@ -474,7 +465,7 @@ public class aanwezigheid extends javax.swing.JFrame {
 
     private void selectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectionChanged
         // TODO add your handling code here:
-        studentList = studentsMethodes.getStudentsFromClass(klassenSetCB.getSelectedItem().toString());
+        studentList = classMethode.getStudents(klassenSetCB.getSelectedItem().toString());
         int rowCount = this.modelSetTable.getRowCount();
 
         if (rowCount > 0) {
@@ -543,7 +534,7 @@ public class aanwezigheid extends javax.swing.JFrame {
 
     private void getClassesComboBox() {
 
-        this.lessonList = classMethodes.getClasses();
+        this.lessonList = classMethode.getClasses();
 
         for (Lesson les : lessonList) {
             klassenCB.addItem(les.getClassName());
