@@ -20,17 +20,16 @@ import managedmyschool.Controller.TeachersMethodes;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
 
-
 /**
  *
  * @author achrafchennan
  */
 public class AddStudent extends javax.swing.JFrame {
-    
+
     ClassMethodes classMethodes;
     StudentsMethodes studentsMethodes;
     List<Lesson> lessonList;
-
+    String loginUser;
 
     /**
      * Creates new form AddStudent
@@ -41,9 +40,11 @@ public class AddStudent extends javax.swing.JFrame {
 
     }
 
-     public AddStudent(ClassMethodes classMeth) {
+    public AddStudent(String login) {
         initComponents();
+        this.loginUser = login;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -248,15 +249,15 @@ public class AddStudent extends javax.swing.JFrame {
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
         // TODO add your handling code here:
-            mainAppFrame main = new mainAppFrame();
-                        this.setVisible(false);
+        MyHome main = new MyHome();
+        this.setVisible(false);
 
-            main.setVisible(true);
-          
+        main.setVisible(true);
+
+
     }//GEN-LAST:event_btGoBackActionPerformed
-    
-    
-      public void createConstructor() {
+
+    public void createConstructor() {
 
         this.classMethodes = new ClassMethodes();
         this.studentsMethodes = new StudentsMethodes();
@@ -264,73 +265,65 @@ public class AddStudent extends javax.swing.JFrame {
         this.lessonList = classMethodes.getClasses();
 
     }
-    
+
     private void btCreateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateStudentActionPerformed
         // TODO add your handling code here:
-       //read values
-       String voorNaam  = this.tbFirstName.getText();
-       String achterNaam  = this.tbLastName.getText();
-       String geboorteDatum  = this.tbDateOfBirth.getText();
-       String phoneParents  = this.tbPhoneParents.getText();
-       String parentsName  = this.tbParentName.getText();
-       String monthleyPayment  = this.tbMontleyCost.getText();
-       int shartNumber =  tryParseInt(this.tbShartNumber.getText()) ? Integer.parseInt(this.tbShartNumber.getText()) : 0 ;
-       String selectedKlas =  this.cbClasses.getSelectedItem().toString();
-       
-       
-       
+        //read values
+        String voorNaam = this.tbFirstName.getText();
+        String achterNaam = this.tbLastName.getText();
+        String geboorteDatum = this.tbDateOfBirth.getText();
+        String phoneParents = this.tbPhoneParents.getText();
+        String parentsName = this.tbParentName.getText();
+        String monthleyPayment = this.tbMontleyCost.getText();
+        int shartNumber = tryParseInt(this.tbShartNumber.getText()) ? Integer.parseInt(this.tbShartNumber.getText()) : 0;
+        String selectedKlas = this.cbClasses.getSelectedItem().toString();
+
         DateFormat formatter = new SimpleDateFormat("dd-MM-yy");
-                Date date  = null;
-                      java.sql.Date sqlDate =  null;
-                try {
-                  date = formatter.parse(geboorteDatum);
-                  sqlDate = new java.sql.Date(date.getTime());
+        Date date = null;
+        java.sql.Date sqlDate = null;
+        try {
+            date = formatter.parse(geboorteDatum);
+            sqlDate = new java.sql.Date(date.getTime());
 
-                    } catch (ParseException e) {
-                 e.printStackTrace();
-                    }
-         
-       
-       
-       if(!checkIfNull(voorNaam)&&
-          !checkIfNull(achterNaam) &&
-          !checkIfNull(geboorteDatum) &&
-          !checkIfNull(phoneParents) &&
-          !checkIfNull(parentsName) &&
-          !checkIfNull(monthleyPayment) &&
-          shartNumber > 0 &&      
-          selectedKlas  != "Selecteer een klas" &&
-          sqlDate != null  
-               
-               ){
-           
-           String respMessage =  studentsMethodes.addNewStudent(voorNaam,achterNaam,date,selectedKlas, phoneParents, parentsName, monthleyPayment, shartNumber);
-           if(respMessage.startsWith("Het"))
-               showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
-           else
-              showResponse(respMessage,"Mislukt",JOptionPane.ERROR_MESSAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-       }
-       else{
-          
-                    JOptionPane.showMessageDialog(null,
-                "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
-             "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
-       }
-              
-  
-        
+        if (!checkIfNull(voorNaam)
+                && !checkIfNull(achterNaam)
+                && !checkIfNull(geboorteDatum)
+                && !checkIfNull(phoneParents)
+                && !checkIfNull(parentsName)
+                && !checkIfNull(monthleyPayment)
+                && shartNumber > 0
+                && selectedKlas != "Selecteer een klas"
+                && sqlDate != null) {
+
+            String respMessage = studentsMethodes.addNewStudent(voorNaam, achterNaam, date, selectedKlas, phoneParents, parentsName, monthleyPayment, shartNumber);
+            if (respMessage.startsWith("Het")) {
+                showResponse(respMessage, "Aangemaakt", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showResponse(respMessage, "Mislukt", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(null,
+                    "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
+                    "Verplichten velden",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btCreateStudentActionPerformed
 
-         
-       public static void showResponse (String responseText, String responseTitle, int joptionpane ){
-             JOptionPane.showMessageDialog(null,
+    public static void showResponse(String responseText, String responseTitle, int joptionpane) {
+        JOptionPane.showMessageDialog(null,
                 responseText,
                 responseTitle,
                 joptionpane);
-       }
-        
+    }
+
     /**
      * @param args the command line arguments
      */

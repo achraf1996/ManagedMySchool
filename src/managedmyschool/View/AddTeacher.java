@@ -16,6 +16,7 @@ import managedmyschool.Controller.ClassMethodes;
 import managedmyschool.Controller.TeachersMethodes;
 import static managedmyschool.Controller.HelperMethodes.getBirthDay;
 import static managedmyschool.Controller.HelperMethodes.tryParseInt;
+import managedmyschool.Controller.StudentsMethodes;
 import managedmyschool.Model.Lesson;
 import managedmyschool.Model.Student;
 
@@ -24,27 +25,33 @@ import managedmyschool.Model.Student;
  * @author achrafchennan
  */
 public class AddTeacher extends javax.swing.JFrame {
-    
-    ClassMethodes classMethode;
-    TeachersMethodes  teacherMethodes;
-    List<Lesson> lessonList;
 
+    ClassMethodes classMethodes;
+    TeachersMethodes teachersMethodes;
+    List<Lesson> lessonList;
+    String loginUser;
 
     /**
      * Creates new form AddStudent
      */
     public AddTeacher() {
         initComponents();
-        lessonList = new ArrayList<Lesson>();
-        classMethode = new ClassMethodes();
-        teacherMethodes = new TeachersMethodes();
+
     }
 
-     public AddTeacher(ClassMethodes classMeth) {
+    public AddTeacher(String login) {
         initComponents();
-        lessonList = new ArrayList<Lesson>();
-        classMethode = classMeth;
+        this.loginUser = login;
     }
+
+    public void createConstructor() {
+
+        this.classMethodes = new ClassMethodes();
+        this.teachersMethodes = new TeachersMethodes();
+        this.lessonList = classMethodes.getClasses();
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,7 +71,7 @@ public class AddTeacher extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        cbKlassen = new javax.swing.JComboBox<>();
+        cbClasses = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         tbPhone = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -97,11 +104,14 @@ public class AddTeacher extends javax.swing.JFrame {
 
         jLabel5.setText("Leraar aanmaken");
 
-        lessonList = this.classMethode.getClasses();
-        cbKlassen.addItem("Selecteer een klas");
+        if(lessonList == null){
+            createConstructor();
+        }
+        lessonList = this.classMethodes.getClasses();
+        cbClasses.addItem("Selecteer een klas");
 
         for(Lesson les : lessonList){
-            cbKlassen.addItem(les.getClassName());
+            cbClasses.addItem(les.getClassName());
         }
 
         jLabel6.setText("Telefoonnummer :");
@@ -128,7 +138,7 @@ public class AddTeacher extends javax.swing.JFrame {
                                 .addGap(107, 107, 107)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tbPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                    .addComponent(cbKlassen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(cbClasses, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -180,7 +190,7 @@ public class AddTeacher extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(cbKlassen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -212,71 +222,67 @@ public class AddTeacher extends javax.swing.JFrame {
 
     private void btVorigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVorigeActionPerformed
         // TODO add your handling code here:
-            mainAppFrame main = new mainAppFrame();
-                        this.setVisible(false);
+        MyHome main = new MyHome();
+        this.setVisible(false);
 
-            main.setVisible(true);
-          
+        main.setVisible(true);
+
+
     }//GEN-LAST:event_btVorigeActionPerformed
 
-    private Boolean checkIfNull(String var){
-    if(var.replace(" ", "") == "")
-    return true;
-    else
-      return  false;
+    private Boolean checkIfNull(String var) {
+        if (var.replace(" ", "") == "") {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
     private void btAanmakenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAanmakenActionPerformed
         // TODO add your handling code here:
-       //read values
-       String voorNaam  = this.tbVoornaam.getText();
-       String achterNaam  = this.tbAchternaam.getText();
-       String geboorteDatum  = this.tbGeboorteDatum.getText();
-       String phone  = this.tbPhone.getText();
-       int salary  =  tryParseInt(this.tbSalary.getText()) ?  Integer.parseInt(tbSalary.getText()) : 0 ;
-       String selectedKlas =  this.cbKlassen.getSelectedItem().toString();
-       
-        Date sqlDate  = getBirthDay(geboorteDatum);
-         
-       
-       
-       if(!checkIfNull(voorNaam)&&
-          !checkIfNull(achterNaam) &&
-          !checkIfNull(geboorteDatum) &&
-          !checkIfNull(phone) &&     
-          !selectedKlas.startsWith("Selecteer") &&
-          sqlDate != null  
-               
-               ){
-           
-               String respMessage =  this.teacherMethodes.addTeacher(voorNaam,achterNaam,sqlDate,phone,salary);
-               
-           if(respMessage.startsWith("Het"))
-               showResponse(respMessage,"Aangemaakt",JOptionPane.INFORMATION_MESSAGE);
-           else
-              showResponse(respMessage,"Mislukt",JOptionPane.ERROR_MESSAGE);
+        //read values
+        String voorNaam = this.tbVoornaam.getText();
+        String achterNaam = this.tbAchternaam.getText();
+        String geboorteDatum = this.tbGeboorteDatum.getText();
+        String phone = this.tbPhone.getText();
+        int salary = tryParseInt(this.tbSalary.getText()) ? Integer.parseInt(tbSalary.getText()) : 0;
+        String selectedKlas = this.cbClasses.getSelectedItem().toString();
 
-       }
-       else{
-          
-                    JOptionPane.showMessageDialog(null,
-                "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
-             "Verplichten velden",
-                JOptionPane.WARNING_MESSAGE);
-       }
-              
-  
-        
+        Date sqlDate = getBirthDay(geboorteDatum);
+
+        if (!checkIfNull(voorNaam)
+                && !checkIfNull(achterNaam)
+                && !checkIfNull(geboorteDatum)
+                && !checkIfNull(phone)
+                && !selectedKlas.startsWith("Selecteer")
+                && sqlDate != null) {
+
+            String respMessage = this.teachersMethodes.addTeacher(voorNaam, achterNaam, sqlDate, phone, salary);
+
+            if (respMessage.startsWith("Het")) {
+                showResponse(respMessage, "Aangemaakt", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showResponse(respMessage, "Mislukt", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(null,
+                    "Niet alle velden zijn ingevuld, alle velden moeten ingevuld worden behalve toevoeging deze is optioneel",
+                    "Verplichten velden",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btAanmakenActionPerformed
 
-         
-       public static void showResponse (String responseText, String responseTitle, int joptionpane ){
-             JOptionPane.showMessageDialog(null,
+    public static void showResponse(String responseText, String responseTitle, int joptionpane) {
+        JOptionPane.showMessageDialog(null,
                 responseText,
                 responseTitle,
                 joptionpane);
-       }
-        
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -316,7 +322,7 @@ public class AddTeacher extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAanmaken;
     private javax.swing.JButton btVorige;
-    private javax.swing.JComboBox<String> cbKlassen;
+    private javax.swing.JComboBox<String> cbClasses;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
