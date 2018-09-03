@@ -80,7 +80,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
 
     public void fillTable(List<SalaryModel> salaryList) {
         int currentCount = 0;
-
+        int totaal = 0;
         this.emptyTable();
 
         tbPayments.setModel(modelSetTable);
@@ -98,8 +98,9 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
             modelSetTable.setValueAt(salaryModel.getDay(), currentCount, 0);
             modelSetTable.setValueAt(salaryModel.getAmount(), currentCount, 1);
             currentCount++;
-
+            totaal = totaal + salaryModel.getAmount();
         }
+        this.lbTotaal.setText("Totaal: " + totaal);
     }
 
     /**
@@ -128,6 +129,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
         lbyear = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbPayments = new javax.swing.JTable();
+        lbTotaal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -216,6 +218,8 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tbPayments);
 
+        lbTotaal.setText("Totaal:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -267,8 +271,10 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
                         .addComponent(lbTeachersCostPageTitle))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(104, 104, 104)
-                        .addComponent(lbLastEditBy, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbLastEditBy, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(142, 142, 142)
+                        .addComponent(lbTotaal)))
+                .addContainerGap(293, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -292,7 +298,9 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btSameAsPrevious)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addComponent(lbLastEditBy)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbLastEditBy)
+                            .addComponent(lbTotaal))
                         .addGap(41, 41, 41))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
@@ -384,7 +392,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
         // TODO add your handling code here:
         String className = cbTeachers.getSelectedItem().toString();
         List<SalaryModel> salaryList = new ArrayList<SalaryModel>();
-
+        int totaal  = 0;
         if (!this.cbMonth.getSelectedItem().toString().startsWith("Selecteer")
                 && !this.cbYear.getSelectedItem().toString().startsWith("Selecteer")
                 && !this.cbTeachers.getSelectedItem().toString().startsWith("Selecteer")) {
@@ -395,9 +403,12 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
                 Object amount = this.modelSetTable.getValueAt(i, 1);
                 int dayset = Integer.parseInt(day.toString());
                 int amountSet = Integer.parseInt(amount.toString());
+                totaal  = totaal + amountSet;
                 salaryList.add(new SalaryModel(amountSet, dayset, selectedMonth, selectedYear, this.selectedTeacher.getId(), ""));
             }
+            
             String resp = this.salaryMethodes.updatepayTeacher(salaryList);
+            this.lbTotaal.setText("Totaal: " + totaal);
             aanwezigheid.showResponse(resp, "Betaling leraar", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null,
@@ -533,6 +544,7 @@ public class TrackTeacherSalary extends javax.swing.JFrame {
     private javax.swing.JLabel lbSalary;
     private javax.swing.JLabel lbTeachers;
     private javax.swing.JLabel lbTeachersCostPageTitle;
+    private javax.swing.JLabel lbTotaal;
     private javax.swing.JLabel lbyear;
     private javax.swing.JTable tbPayments;
     private javax.swing.JTextField tbSalary;

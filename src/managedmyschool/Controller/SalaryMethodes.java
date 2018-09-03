@@ -39,7 +39,6 @@ public class SalaryMethodes {
 
         PreparedStatement stprep = null;
         try {
-
             String query = "UPDATE PaymentTeachers set amount = ?, registerdBy = ?  WHERE teacherId = ? AND day = ? AND month = ? AND year = ?;";
             stprep = conn.prepareStatement(query);
 
@@ -76,7 +75,7 @@ public class SalaryMethodes {
     public String payTeacher(List<SalaryModel> salaryList) {
         isSucces = false;
         String query = "INSERT INTO PaymentTeachers ("
-                + "teacherId,"
+                + "teacherid,"
                 + "day,"
                 + "month,"
                 + "year,"
@@ -99,7 +98,6 @@ public class SalaryMethodes {
 
                 stprep.executeUpdate();
             }
-
             stprep.close();
             isSucces = true;
 

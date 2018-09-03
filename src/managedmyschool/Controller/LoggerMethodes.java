@@ -6,7 +6,13 @@
 package managedmyschool.Controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
+import managedmyschool.Model.Logger;
 
 /**
  *
@@ -24,10 +30,47 @@ public class LoggerMethodes {
 
     }
 
-    public void getLogs() {
+    public void getLogs(String methode) {
 
     }
 
-    public void createLogs() {
+    public String createLogs(Logger logger) {
+                int id = 0;
+        String query = "INSERT INTO logger (username,methode,input) VALUES (?,?,?);";
+
+        ResultSet rs;
+
+        try {
+
+            // still needs add student to shart
+            PreparedStatement stprep = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            
+
+            stprep.setString(1, logger.getUsername());
+            stprep.setString(2, logger.getMethode());
+            stprep.setString(3, logger.getInput());
+
+            stprep.executeUpdate();
+            rs = stprep.getGeneratedKeys();
+
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+            stprep.close();
+    
+
+        } catch (SQLException ex) {
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
+
+        }
+        if (isSucces) {
+            return "Het aanmaken van de student is succesvol verlopen";
+        } else {
+            return "Er is iets mis gegaan bij het aanmaken van de student, probeer het opnieuw.";
+        }
     }
 }
