@@ -13,12 +13,13 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import managedmyschool.Controller.ClassMethodes;
+import managedmyschool.Controller.*;
 import managedmyschool.Controller.StudentsMethodes;
 import managedmyschool.Controller.HelperMethodes;
 import managedmyschool.Controller.TeachersMethodes;
 import managedmyschool.Model.Aanwezigheid;
 import managedmyschool.Model.Lesson;
+import managedmyschool.Model.Logger;
 import managedmyschool.Model.Student;
 import managedmyschool.Model.Teacher;
 
@@ -28,18 +29,16 @@ import managedmyschool.Model.Teacher;
  */
 public class AddClass extends javax.swing.JFrame {
 
-    
-    
     ClassMethodes classMethodes;
     StudentsMethodes studentsMethodes;
     TeachersMethodes teachersMethodes;
     List<Lesson> lessonList;
     Boolean columsAreSet;
     List<Teacher> teachersList;
-        String loginUser;
+    String loginUser;
 
     List<Student> studentsList;
-
+    LoggerMethodes loggerMethodes;
     private DefaultTableModel modelSetTable = new DefaultTableModel() {
         public Class<?> getColumnClass(int column) {
             switch (column) {
@@ -64,21 +63,21 @@ public class AddClass extends javax.swing.JFrame {
     public AddClass() {
         initComponents();
 
-        
     }
 
     public AddClass(String login) {
         initComponents();
         this.loginUser = login;
+        this.loggerMethodes = new LoggerMethodes();
     }
-    
-        public void createConstructor() {
+
+    public void createConstructor() {
 
         this.classMethodes = new ClassMethodes();
         this.teachersMethodes = new TeachersMethodes();
         this.studentsMethodes = new StudentsMethodes();
         this.lessonList = classMethodes.getClasses();
-                columsAreSet = false;
+        columsAreSet = false;
 
         this.teachersList = teachersMethodes.getTeachers();
         studentsList = this.studentsMethodes.getAllStudents();
@@ -289,18 +288,16 @@ public class AddClass extends javax.swing.JFrame {
 
     private void btGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoBackActionPerformed
         // TODO add your handling code here:
-        MyHome  main = new MyHome();
+        MyHome main = new MyHome(this.loginUser);
         this.setVisible(false);
 
         main.setVisible(true);
 
     }//GEN-LAST:event_btGoBackActionPerformed
 
-    
-
     public void fillStudentTable() {
 
-  this.studentsList = studentsMethodes.getAllStudents();
+        this.studentsList = studentsMethodes.getAllStudents();
         Boolean isInClass = false;
         this.tbPickStudentsTable.setModel(modelSetTable);
         this.tbPickStudentsTable.setVisible(true);
@@ -314,7 +311,6 @@ public class AddClass extends javax.swing.JFrame {
         for (int i = 0; i < studentsList.size(); i++) {
             Student student = studentsList.get(i);
 
-       
             Object[][] data = {new Object[]{student.getId(), student.getFirstName(), student.getLastName(), new Boolean(isInClass)}};
             modelSetTable.addRow(data);
             modelSetTable.setValueAt(student.getId(), i, 0);
@@ -334,9 +330,8 @@ public class AddClass extends javax.swing.JFrame {
         String newTeacher = this.cbTeachers.getSelectedItem().toString();
         int startTime = HelperMethodes.tryParseInt(this.tbBeginTime.getText()) ? Integer.parseInt(this.tbBeginTime.getText()) : 0;
         int endTime = HelperMethodes.tryParseInt(this.tbEndTime.getText()) ? Integer.parseInt(this.tbEndTime.getText()) : 0;
-        String classRoom  = this.tbClassName.getText();
-        
-        
+        String classRoom = this.tbClassName.getText();
+
         String respMessage = "";
         Boolean isSucces = false;
 
@@ -345,24 +340,25 @@ public class AddClass extends javax.swing.JFrame {
 
             if (newTeacher.startsWith("Selecteer")) {
                 this.classMethodes.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
-            }
-            else{
-            Teacher newTeacherInList = this.teachersList.stream().filter(
-            teacher -> teacher.getFirstName().equalsIgnoreCase(newTeacher.split(",")[0]) 
-             && 
-            teacher.getLastName().equalsIgnoreCase(newTeacher.split(",")[1])         
-            ).findAny().orElse(null);
-            
-            if(newTeacherInList !=  null) this.teachersMethodes.addTeacherToClass(newClassName,newTeacherInList.getId());
-            
-            
-            this.classMethodes.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+            } else {
+                Teacher newTeacherInList = this.teachersList.stream().filter(
+                        teacher -> teacher.getFirstName().equalsIgnoreCase(newTeacher.split(",")[0])
+                        && teacher.getLastName().equalsIgnoreCase(newTeacher.split(",")[1])
+                ).findAny().orElse(null);
+
+                if (newTeacherInList != null) {
+                    this.teachersMethodes.addTeacherToClass(newClassName, newTeacherInList.getId());
+                }
+
+                this.classMethodes.createClass(new Lesson(newClassName, startTime, endTime, classRoom));
+                loggerMethodes.createLogs(new Logger(this.loginUser, "EditClass", newClassName, "CREATED"));
 
             }
-            
-            if (selectedKlas.toLowerCase() != "Selecteer een klas".toLowerCase()) {
+
+            if (!selectedKlas.equalsIgnoreCase("Selecteer een klas")) {
                 respMessage = studentsMethodes.copyFromClas(selectedKlas, this.tbClassName.getText());
             } else {
+
                 for (int i = 0; i < this.modelSetTable.getRowCount(); i++) {
                     Object id = this.modelSetTable.getValueAt(i, 0);
                     Object selected = this.modelSetTable.getValueAt(i, 3);
@@ -379,19 +375,17 @@ public class AddClass extends javax.swing.JFrame {
                     isSucces = true;
                 }
             }
-            if(isSucces){
-                            JOptionPane.showMessageDialog(null,
-                    respMessage,
-                    "Succes",
-                    JOptionPane.INFORMATION_MESSAGE);
+            if (isSucces) {
+                JOptionPane.showMessageDialog(null,
+                        respMessage,
+                        "Succes",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        respMessage,
+                        "Mislukt",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
-            else{
-                                            JOptionPane.showMessageDialog(null,
-                    respMessage,
-                    "Mislukt",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-
 
         } else {
 
@@ -406,7 +400,7 @@ public class AddClass extends javax.swing.JFrame {
 
     private void btGetStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGetStudentActionPerformed
         // TODO add your handling code here:
-                        fillStudentTable();
+        fillStudentTable();
 
     }//GEN-LAST:event_btGetStudentActionPerformed
 
